@@ -7,6 +7,21 @@
     <title>Devis Generator</title>
     <meta name="description" content="Générer et gérer vos devis clients" />
   </head>
+  
+  <script>
+    const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    }
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+      if (event.matches) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    });
+  </script>
+  
   <body class="antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
