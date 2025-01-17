@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import LoginForm from "@/components/forms/LoginForm";
 
 export default function LoginPage() {
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function LoginPage() {
           <div>
             <h1 className={"text-4xl font-bold capitalize"}>Se connecter</h1>
           </div>
-          {/*<LoginForm />*/}
+          <LoginForm />
           <div>
             <p>Pas encore de compte ? <a href="/register" title={"s'enregistrer"} className={"underline"}>Créer un compte</a></p>
           </div>
