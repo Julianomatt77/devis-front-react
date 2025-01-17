@@ -1,4 +1,4 @@
-// "use client"
+import React from "react";
 import {
     Book,
     Building2,
@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/sidebar"
 import {useIsMobile} from "@/services/hooks/use-mobile";
 import {Button} from "@/components/ui/button";
+import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import Login from "@/scenes/Login";
 // import {usePathname, useRouter} from "next/navigation";
 // import {useAuth} from "@/lib/auth/AuthContext";
 
