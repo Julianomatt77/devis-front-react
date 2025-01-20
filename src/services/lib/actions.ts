@@ -1,4 +1,5 @@
 import {getUserInfo, signIn} from "@/services/lib/auth";
+import {getTokenFromCookie} from "@/services/lib/utils";
 
 export async function authenticate(
     prevState: string | undefined,
@@ -65,9 +66,8 @@ export async function register(
 }
 
 export async function deleteAccount() {
-    const url = process.env.API_URL + 'user-delete';
-    const cookieStore = await cookies()
-    const token = cookieStore.get('devis_token').value;
+    const url = import.meta.env.VITE_API_URL + 'user-delete';
+    const token = getTokenFromCookie();
 
     const response = await fetch(url, {
         method: 'DELETE',
