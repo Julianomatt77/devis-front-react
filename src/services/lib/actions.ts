@@ -186,7 +186,7 @@ export async function recuperer(url: string, token: string) {
 }
 
 export async function sendMail(formData: FormData) {
-    const url = process.env.API_URL + 'contact';
+    const url = import.meta.env.VITE_API_URL + 'contact';
     const body = JSON.stringify({
         from: formData.from,
         subject: formData.subject,
