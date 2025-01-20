@@ -1,8 +1,3 @@
-// 'use server';
-
-// import {getUserInfo, signIn} from "@/lib/auth/auth";
-// import {cookies} from "next/headers";
-
 import {getUserInfo, signIn} from "@/services/lib/auth";
 
 export async function authenticate(
