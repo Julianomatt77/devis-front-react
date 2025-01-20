@@ -85,8 +85,7 @@ export async function deleteDevis(id: number) {
 
 export async function getOneDevis(id: number) {
     const url = import.meta.env.VITE_API_URL + 'devis/' + id;
-    const cookieStore = await cookies()
-    const token = cookieStore.get('devis_token').value;
+    const token = getTokenFromCookie();
 
     const response = await recuperer(url, token);
 

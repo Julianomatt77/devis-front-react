@@ -146,7 +146,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
                 <input
                     type="number"
                     name="tvaPercentage"
-                    value={formData.tvaPercentage || ''}
+                    value={formData.tvaPercentage || '0'}
                     onChange={handleChange}
                     className="input input-bordered w-full"
                 />

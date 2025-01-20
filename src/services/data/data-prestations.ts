@@ -24,7 +24,7 @@ export async function addPrestation(formData: FormData){
             element: { id: formData.element },
             devis: { id: formData.devis },
             prixHT: formData.prixHT * 100,
-            tvaPercentage: formData.tvaPercentage
+            tvaPercentage: formData.tvaPercentage ? formData.tvaPercentage : 0
         })
 
         const response = await create(body, url, token);
@@ -49,7 +49,7 @@ export async function editPrestation(formData: FormData){
             element: { id: formData.element },
             devis: { id: formData.devis },
             prixHT: formData.prixHT * 100,
-            tvaPercentage: formData.tvaPercentage
+            tvaPercentage: formData.tvaPercentage ? formData.tvaPercentage : 0
         })
 
         const response = await update(body, url, token);
