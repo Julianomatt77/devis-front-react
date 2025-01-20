@@ -1,10 +1,11 @@
 import {useEffect} from "react";
+import RegisterForm from "@/components/forms/register-form";
 
 export default function RegisterPage() {
     useEffect(() => {
-        const originalTitle = document.title; // Pour cleanup
+        const originalTitle = document.title;
         document.title = `Devis Generator/Register`;
-        // Cleanup
+
         return () => {
             document.title = originalTitle;
         };
@@ -16,9 +17,9 @@ export default function RegisterPage() {
                 <div>
                     <h1 className={"text-4xl font-bold capitalize"}>Créer un compte</h1>
                 </div>
-                {/*<RegisterForm />*/}
+                <RegisterForm />
                 <div>
-                    <p>Vous avez déjà un compte ? <a href="/login" title={"Se connecter"}>Se connecter</a></p>
+                    <p>Vous avez déjà un compte ? <a href="/login" title={"Se connecter"} className={"underline"}>Se connecter</a></p>
                 </div>
             </div>
         </main>
