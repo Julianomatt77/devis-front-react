@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import WarningModal from "@/components/WarningModal";
 import {Button} from "@/components/ui/button";
 import DevisForm from "@/components/forms/devis-form";
-import {deleteDevis, getOneDevis} from "@/services/data/data-devis";
+import {deleteDevis} from "@/services/data/data-devis";
 import Modal from "@/components/ui/modal";
 import {useState} from "react";
 

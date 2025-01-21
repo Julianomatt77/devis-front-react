@@ -12,7 +12,6 @@ export default function DevisDetailPage() {
     const [devis, setDevis] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    // const [updated, setUpdated] = useState('');
     const updatedParams = new URLSearchParams(location.search);
     const updated = updatedParams.get('updated') || ""
 
@@ -34,13 +33,6 @@ export default function DevisDetailPage() {
 
         fetchData();
     }, [id, updated]);
-
-    const refreshData = async () => {
-        const result = await getOneDevis(Number(id));
-        if (result.ok) {
-            setDevis(result.data);
-        }
-    };
 
     if (isLoading) {
         return <div>Chargement...</div>; // Affiche un indicateur de chargement
@@ -92,7 +84,7 @@ export default function DevisDetailPage() {
                 <div id={"entreprise-adresse-section"}>
                     {entreprise && (
                         <>
-                            <p>{entreprise.nom}</p>
+                            <p>{entrepriseNom}</p>
                             {entreprise.contact && <p>{entreprise.contact}</p>}
                             <p>{entrepriseAdresseRue}</p>
                             <p>{entrepriseAdresseVille}</p>
@@ -144,7 +136,7 @@ export default function DevisDetailPage() {
                 </div>
                 <div id={"infos-client"}>
                     <h2 className={"underline mb-4"}>Destinataire :</h2>
-                    <p>{client.nom} {client.prenom}</p>
+                    <p>{clientNom} {clientPrenom}</p>
                     <p>{clientAdresseRue}</p>
                     <p>{clientAdresseVille}</p>
                 </div>
