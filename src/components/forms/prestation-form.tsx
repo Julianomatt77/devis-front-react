@@ -125,7 +125,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
                 <input
                     type="number"
                     name="qty"
-                    value={formData.qty || ''}
+                    value={formData.qty || '0'}
                     onChange={handleChange}
                     required
                     className="input input-bordered w-full"
@@ -136,7 +136,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
                 <input
                     type="number"
                     name="prixHT"
-                    value={formData.prixHT || ''}
+                    value={formData.prixHT || '0'}
                     onChange={handleChange}
                     required
                     className="input input-bordered w-full"
