@@ -4,18 +4,19 @@ import {addPrestation, editPrestation} from "@/services/data/data-prestations";
 import ProductForm from "@/components/forms/product-form";
 import {getProducts} from "@/services/data/data-products";
 
-export default function PrestationForm({ onSubmit, prestationData, isEditMode, devisId }) {
+export default function PrestationForm({ onSubmit, prestationData, isEditMode, devisId }:
+    { onSubmit: any, prestationData: any, isEditMode: boolean, devisId: number }) {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [productsList, setProductsList] = useState([]);
     const [showProductForm, setShowProductForm] = useState(false);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Prestation>({
         id: '',
         element: '',
         devis: devisId,
-        qty: '',
-        prixHT: '',
-        tvaPercentage: '',
+        qty: 0,
+        prixHT: 0,
+        tvaPercentage: 0,
     });
 
     // Récupérer la liste d'adresses
@@ -40,7 +41,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
     }, [prestationData]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -49,7 +50,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
     };
 
     // Gestion de la sélection d'élément'
-    const handleProductChange = (e) => {
+    const handleProductChange = (e: any) => {
         const selectedValue = e.target.value;
         if (selectedValue === 'other') {
             setShowProductForm(true);
@@ -61,7 +62,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
     };
 
     // Mise à jour des données des éléments personnalisée après l'ajout dans AdresseForm
-    const handleCustomProductSubmit = async (newProductData) => {
+    const handleCustomProductSubmit = async (newProductData: Product) => {
         await fetchProducts();
 
         setFormData((prevData) => ({
@@ -72,7 +73,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
         setShowProductForm(false);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -110,7 +111,7 @@ export default function PrestationForm({ onSubmit, prestationData, isEditMode, d
                     className="input input-bordered w-full"
                 >
                     <option value="">Sélectionnez un produit</option>
-                    {productsList.map((product) => (
+                    {productsList.map((product: Product) => (
                         <option key={product.id} value={product.id}>
                             {product.nom}
                         </option>

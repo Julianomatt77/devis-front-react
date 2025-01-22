@@ -7,14 +7,14 @@ import Modal from "@/components/ui/modal";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export default function PrestationModalTrigger({ isEditPrestation, id }: { isEditPrestation, id: number }) {
+export default function PrestationModalTrigger({ isEditPrestation, id }: { isEditPrestation: any, id: number }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isWarningOpen, setIsWarningOpen] = useState(false);
     const [selectedPrestation, setSelectedPrestation] = useState(null);
     const navigate = useNavigate();
 
     // const openModal = () => setIsModalOpen(true);
-    const openModal = (prestation) => {
+    const openModal = (prestation: any) => {
         setSelectedPrestation(prestation);
         setIsModalOpen(true);
     };
@@ -75,7 +75,7 @@ export default function PrestationModalTrigger({ isEditPrestation, id }: { isEdi
     );
 }
 
-export function NewPrestationModalTrigger({ openModal }: { openModal: (prestation) => void }) {
+export function NewPrestationModalTrigger({ openModal }: { openModal: (prestation: Prestation | null) => void }) {
     return (
         <div className={"flex gap-4"}>
             <Button onClick={() => openModal(null)}>Ajouter une prestation</Button>
@@ -83,7 +83,8 @@ export function NewPrestationModalTrigger({ openModal }: { openModal: (prestatio
     );
 }
 
-export function EditPrestationModalTrigger({ openModal, openWarningModal, prestationData }: { openModal: (prestation) => void, openWarningModal: () => void }) {
+export function EditPrestationModalTrigger({ openModal, openWarningModal, prestationData }:
+{ openModal: (prestation: Prestation | null) => void, openWarningModal: () => void, prestationData: any }) {
     return (
         <div className={"flex flex-wrap gap-6"}>
             <PenLine onClick={() => openModal(prestationData)} className={"cursor-pointer"}/>

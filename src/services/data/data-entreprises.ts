@@ -14,7 +14,7 @@ export async function getEntreprises() {
     return {ok: true, message: response.message, data: response.data};
 }
 
-export async function addEntreprise(formData: FormData){
+export async function addEntreprise(formData: Entreprise){
     try {
         const url = import.meta.env.VITE_API_URL + 'entreprises';
         const token = getTokenFromCookie();
@@ -44,7 +44,7 @@ export async function addEntreprise(formData: FormData){
     }
 }
 
-export async function editEntreprise(formData: FormData){
+export async function editEntreprise(formData: Entreprise){
     try {
         const url = import.meta.env.VITE_API_URL + 'entreprises/' + formData.id;
         const token = getTokenFromCookie();

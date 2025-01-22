@@ -52,7 +52,7 @@ export default function ClientsPage() {
         }
     };
 
-    const openEditModal = (client: never | null) => {
+    const openEditModal = (client: any) => {
         setSelectedClient(client ?? null);
         setIsModalOpen(true);
     };
@@ -62,12 +62,12 @@ export default function ClientsPage() {
         setSelectedClient(null);
     };
 
-    const refreshSearch = (e) =>{
+    const refreshSearch = (e: any) =>{
         setSearch(e);
         refreshData();
     }
 
-    const refreshClient = (clientId) =>{
+    const refreshClient = (clientId: any) =>{
         setClientId(clientId);
         refreshData();
     }

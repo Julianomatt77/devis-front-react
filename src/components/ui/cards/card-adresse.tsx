@@ -3,12 +3,12 @@ import {deleteAdresses} from "@/services/data/data-adresses";
 import {stringAdresse} from "@/services/lib/utils";
 import {useState} from "react";
 
-export function CardAdresse({ data, onEditData, refreshData }) {
+export function CardAdresse({ data, onEditData, refreshData }: any) {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const displayAdresse = stringAdresse(data)
 
-    const deleteAdresse = async (id) => {
+    const deleteAdresse = async (id: number) => {
         setErrorMessage(null); // Réinitialise les messages
         setSuccessMessage(null);
 

@@ -14,7 +14,7 @@ export async function getProducts() {
     return {ok: true, message: response.message, data: response.data};
 }
 
-export async function addProduct(formData: FormData){
+export async function addProduct(formData: Product){
     try {
         const url = import.meta.env.VITE_API_URL + 'elements';
         const token = getTokenFromCookie();
@@ -35,7 +35,7 @@ export async function addProduct(formData: FormData){
     }
 }
 
-export async function editProduct(formData: FormData){
+export async function editProduct(formData: Product){
     try {
         const url = import.meta.env.VITE_API_URL + 'elements/' + formData.id;
         const token = getTokenFromCookie();

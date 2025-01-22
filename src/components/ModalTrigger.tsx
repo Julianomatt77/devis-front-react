@@ -7,7 +7,7 @@ import Modal from "@/components/ui/modal";
 import {useState} from "react";
 
 
-export default function ModalTrigger({ devisData, id }: { devisData, id: number }) {
+export default function ModalTrigger({ devisData, id }: { devisData: any, id: number }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isWarningOpen, setIsWarningOpen] = useState(false);
     const navigate = useNavigate();

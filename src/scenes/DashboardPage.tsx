@@ -13,10 +13,14 @@ export default function DashboardPage() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [isWarningOpen, setIsWarningOpen] = useState(false);
-    const [clientsList, setClientsList] = useState<[]>(false);
-    const [devisList, setDevisList] = useState<[]>(false);
+    const [clientsList, setClientsList] = useState<Client[] | null>(null);
+    const [devisList, setDevisList] = useState<Devis[] | null>(null);
 
-    const { logout } = useAuth();
+    const authContext = useAuth();
+    if (!authContext) {
+        return <div>Erreur d'authentification</div>;
+    }
+    const { logout } = authContext;
     const navigate = useNavigate();
 
     const openWarningModal = () => setIsWarningOpen(true);
@@ -28,7 +32,7 @@ export default function DashboardPage() {
             const devis = await getDevis();
 
             setClientsList(clients.data.slice(0, 10));
-            setDevisList(devis.data.filter((devis) => !devis.deletedAt).slice(0, 10));
+            setDevisList(devis.data.filter((devis: Devis) => !devis.deletedAt).slice(0, 10));
         }
         fetchData();
     }, []);

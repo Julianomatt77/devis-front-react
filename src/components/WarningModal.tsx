@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button";
 
-export default function WarningModal({ onClose, onConfirm , type}) {
+export default function WarningModal({ onClose, onConfirm , type}: {   onClose: () => void, onConfirm: () => void, type: string}) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
             <div className="relative w-full max-w-md">

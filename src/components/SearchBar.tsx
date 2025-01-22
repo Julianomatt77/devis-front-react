@@ -2,7 +2,8 @@ import {CircleX} from "lucide-react";
 import {Suspense, useEffect} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 
-export default function SearchBar({search, placeholder, clientId, refreshSearch, refreshClient}) {
+export default function SearchBar({search, placeholder, clientId, refreshSearch, refreshClient}:
+{search: string, placeholder: string, clientId: string | null, refreshSearch: (search: string) => void, refreshClient: (clientId: string) => void}) {
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -15,7 +16,7 @@ export default function SearchBar({search, placeholder, clientId, refreshSearch,
         }
     }, [clientId, refreshClient]);
 
-    const handleSearchChange = (newSearchValue) => {
+    const handleSearchChange = (newSearchValue: any) => {
         const params = new URLSearchParams(location.search);
         if (newSearchValue) {
             params.set("search", newSearchValue);

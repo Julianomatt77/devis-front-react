@@ -2,12 +2,12 @@ import {useEffect, useState} from "react";
 import {addAdresse, editAdresse} from "@/services/data/data-adresses";
 import {Button} from "@/components/ui/button";
 
-export default function AdresseForm({ onSubmit, data, isEditMode, refreshData }) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    // const [newAdresseId, setNewAdresseId] = useState<string | null>(null)
+export default function AdresseForm({ onSubmit, data = null, isEditMode, refreshData }:
+{ onSubmit: any, data?: any, isEditMode: boolean, refreshData: any }) {
+    const [errorMessage, setErrorMessage] = useState<any | null>(null);
+    const [successMessage, setSuccessMessage] = useState<any | null>(null);
     const [formData, setFormData] = useState({
-        numero: '',
+        numero: 0,
         rue: '',
         complementaire: '',
         cp: '',
@@ -22,7 +22,7 @@ export default function AdresseForm({ onSubmit, data, isEditMode, refreshData })
     }, [data]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -31,7 +31,7 @@ export default function AdresseForm({ onSubmit, data, isEditMode, refreshData })
     };
 
     // Gestion de la soumission du formulaire
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -48,7 +48,7 @@ export default function AdresseForm({ onSubmit, data, isEditMode, refreshData })
             } else {
                 setErrorMessage(result.message);
             }
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
             setErrorMessage("Une erreur est survenue. Veuillez réessayer.");
         }

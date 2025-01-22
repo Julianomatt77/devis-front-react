@@ -9,7 +9,7 @@ import PrestationModalTrigger from "@/components/PrestationModalTrigger";
 
 export default function DevisDetailPage() {
     const {id} = useParams();
-    const [devis, setDevis] = useState({});
+    const [devis, setDevis] = useState<Devis | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const updatedParams = new URLSearchParams(location.search);
@@ -38,7 +38,11 @@ export default function DevisDetailPage() {
         return <div>Chargement...</div>; // Affiche un indicateur de chargement
     }
 
-    const { entreprise, client, prestations, tc, paidAt, dateDebutPrestation, dateValidite, totalHT, tva, totalTTC, createdAt, updatedAt } = devis;
+    if (!devis) {
+        return <div>Aucun devis trouvé.</div>; // Si devis est null, affiche un message d'erreur
+    }
+
+    const { entreprise, prestations, tc, paidAt } = devis;
 
     const {
         entrepriseNom,
@@ -49,7 +53,7 @@ export default function DevisDetailPage() {
         clientAdresseRue,
         clientAdresseVille,
         contactClient,
-        createdAtDate,
+        // createdAtDate,
         updatedAtDate,
         paidAtDate,
         debutAtDate,
@@ -65,7 +69,7 @@ export default function DevisDetailPage() {
         <main id={"devis-" + id} className="flex flex-col items-between justify-start p-4 w-full">
             <section id={"devis-actions-section"} className={"flex items-center justify-between gap-4 p-4"}>
                 <a href={"/devis"}><Button>Retour aux devis</Button></a>
-                <ModalTrigger devisData={devis} id={devis?.id} />
+                <ModalTrigger devisData={devis} id={Number(id)} />
             </section>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             {/*{devis && prixHtCalcule && tvaCalcule && totalTTCCalcule && <PDFExportButton*/}
@@ -92,7 +96,7 @@ export default function DevisDetailPage() {
                     )}
                 </div>
                 <div className={"flex gap-4"}>
-                    <h1 className="text-4xl font-bold capitalize">{devis.reference}</h1>
+                    <h1 className="text-4xl font-bold capitalize">{devis?.reference}</h1>
                     <div className="flex flex-wrap items-center text-base font-semibold text-gray-900 dark:text-white">
                         <div className="justify-center">
                             <div className="form-control">
@@ -111,7 +115,7 @@ export default function DevisDetailPage() {
                 <div id={"devis-infos"} className={"bordered rounded bg-base-100 p-4 flex flex-col items-between justify-start gap-4"}>
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
                         <p>Référence: </p>
-                        <p>{devis.reference}</p>
+                        <p>{devis?.reference}</p>
                     </div>
 
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
@@ -158,7 +162,7 @@ export default function DevisDetailPage() {
                     <p>Total TTC</p>
                     <p></p>
                 </div>
-                {prestations.map(prestation =>{
+                {prestations && prestations.map((prestation: Prestation) =>{
                     return (
                         <div key={prestation.id} className={`w-full p-4 ${
                             "lg:grid lg:grid-cols-8 lg:gap-x-2 lg:items-center lg:justify-items-center lg:border-none"
@@ -167,22 +171,22 @@ export default function DevisDetailPage() {
                         }`}
                         >
                             <p className="font-bold lg:font-normal">{prestation.element.nom}</p>
-                            <PrestationCard nom={"Quantité:"} valeur={prestation.qty} />
+                            <PrestationCard nom={"Quantité:"} valeur={prestation.qty.toString()} />
                             <PrestationCard nom={"Prix Unitaire HT:"} valeur={transformPriceToEuro(prestation.prixHT)} />
-                            <PrestationCard nom="Total HT" valeur={transformPriceToEuro(prestation.totalHT)} />
+                            <PrestationCard nom="Total HT" valeur={transformPriceToEuro(prestation.totalHT ?? 0)} />
                             <PrestationCard nom="Pourcentage de TVA:" valeur={prestation.tvaPercentage + "%"} />
-                            <PrestationCard nom="TVA: " valeur={transformPriceToEuro(prestation.tva)} />
-                            <PrestationCard nom="Total TTC:" valeur={transformPriceToEuro(prestation.totalTTC)} classname="font-bold" />
+                            <PrestationCard nom="TVA: " valeur={transformPriceToEuro(prestation.tva ?? 0)} />
+                            <PrestationCard nom="Total TTC:" valeur={transformPriceToEuro(prestation.totalTTC ?? 0)} classname="font-bold" />
 
                             <div className={`lg:hidden flex items-center gap-x-4 justify-center`}>
-                                <PrestationModalTrigger isEditPrestation={prestation} id={devis?.id} />
+                                <PrestationModalTrigger isEditPrestation={prestation} id={Number(id)} />
                             </div>
-                            <div className={"hidden lg:block"}><PrestationModalTrigger isEditPrestation={prestation} id={devis?.id} /></div>
+                            <div className={"hidden lg:block"}><PrestationModalTrigger isEditPrestation={prestation} id={Number(id)} /></div>
                         </div>
                     )
                 })}
             </section>
-            <div className={"ml-4 mt-4"}><PrestationModalTrigger isEditPrestation={null} id={devis?.id}/></div>
+            <div className={"ml-4 mt-4"}><PrestationModalTrigger isEditPrestation={null} id={Number(id)}/></div>
 
             <section id={"prix-section"} className={"grid grid-cols-2 gap-x-4 items-end justify-items-end ml-auto mb-8 p-4"}>
                 <div className="text-right">
@@ -216,7 +220,7 @@ export default function DevisDetailPage() {
     )
 }
 
-function PrestationCard({ nom, valeur, classname }) {
+function PrestationCard({ nom, valeur, classname }: { nom: string, valeur: string, classname?: string }) {
     return (
         <>
             <div className={`lg:hidden flex items-center gap-x-4 justify-center`}>
@@ -228,8 +232,31 @@ function PrestationCard({ nom, valeur, classname }) {
     )
 }
 
-function formatDevisData(devis) {
-    if (!devis) return null;
+function formatDevisData(devis: Devis) {
+    if (!devis) {
+        return {
+            entrepriseNom: "",
+            entrepriseAdresseRue: "",
+            entrepriseAdresseVille: "",
+            clientNom: "",
+            clientPrenom: "",
+            clientAdresseRue: "",
+            clientAdresseVille: "",
+            contactClient: "Contact non disponible",
+            createdAtDate: "",
+            updatedAtDate: "",
+            paidAtDate: null,
+            debutAtDate: "À définir",
+            validite: "",
+            prixHtCalcule: 0,
+            tvaCalcule: 0,
+            totalTTCCalcule: 0,
+            prestations: "",
+            tc: "",
+            paid: ""
+        };
+    }
+
     const { entreprise, client, prestations, tc, paidAt, dateDebutPrestation, dateValidite, totalHT, tva, totalTTC, createdAt, updatedAt } = devis;
 
     const entrepriseAdresseRue = entreprise?.adresse ? stringAdresseRue(entreprise.adresse) : "";
@@ -248,14 +275,14 @@ function formatDevisData(devis) {
         clientAdresseRue,
         clientAdresseVille,
         contactClient,
-        createdAtDate: formatDate(createdAt),
-        updatedAtDate: updatedAt ? formatDate(updatedAt) : formatDate(createdAt),
+        createdAtDate: formatDate(createdAt ?? ''),
+        updatedAtDate: updatedAt ? formatDate(updatedAt) : formatDate(createdAt ?? ''),
         paidAtDate: paidAt ? formatDate(paidAt) : null,
         debutAtDate: dateDebutPrestation ? formatDate(dateDebutPrestation) : "À définir",
-        validite: formatDate(dateValidite),
-        prixHtCalcule: transformPriceToEuro(totalHT),
-        tvaCalcule: transformPriceToEuro(tva),
-        totalTTCCalcule: transformPriceToEuro(totalTTC),
+        validite: formatDate(dateValidite ?? ''),
+        prixHtCalcule: transformPriceToEuro(totalHT ?? 0),
+        tvaCalcule: transformPriceToEuro(tva ?? 0),
+        totalTTCCalcule: transformPriceToEuro(totalTTC ?? 0),
         prestations,
         tc,
         paid

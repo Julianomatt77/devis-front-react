@@ -1,4 +1,4 @@
-export function DashboardCardClient(props: {data}) {
+export function DashboardCardClient(props: {data: any}) {
     const {data} = props;
     const {email, nom, prenom} = data;
 

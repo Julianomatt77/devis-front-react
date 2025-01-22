@@ -1,6 +1,5 @@
-export default function Modal({ children, onClose }) {
-    // Fonction pour gérer la fermeture en cliquant à l'extérieur de la modal
-    const handleOutsideClick = (e) => {
+export default function Modal({ children, onClose }: any) {
+    const handleOutsideClick = (e: any) => {
         if (e.target.id === 'modal-background') {
             onClose();
         }

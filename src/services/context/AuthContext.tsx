@@ -1,8 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import {createContext, useContext, useState, useEffect, ReactNode} from 'react';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }) => {
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
@@ -11,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(!!(user && token));
     }, []);
 
-    const login = (userInfo, token) => {
+        const login = (userInfo: UserInfo, token: string) => {
         localStorage.setItem('devis_user', JSON.stringify(userInfo));
         localStorage.setItem('devis_token', token);
         setIsAuthenticated(true);

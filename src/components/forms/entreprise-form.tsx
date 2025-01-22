@@ -5,9 +5,10 @@ import {stringAdresse} from "@/services/lib/utils";
 import AdresseForm from "@/components/forms/adresse-form";
 import {Button} from "@/components/ui/button";
 
-export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, refreshData }) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, refreshData }:
+                                           { onSubmit: any, entrepriseData: any, isEditMode: boolean, refreshData: any }) {
+    const [errorMessage, setErrorMessage] = useState<any | null>(null);
+    const [successMessage, setSuccessMessage] = useState<any | null>(null);
     const [adressesList, setAdressesList] = useState([]);
     const [showAdresseForm, setShowAdresseForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
     }, [entrepriseData]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -54,7 +55,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
     };
 
     // Gestion de la sélection de l'adresse
-    const handleAdresseChange = (e) => {
+    const handleAdresseChange = (e: any) => {
         const selectedValue = e.target.value;
         if (selectedValue === 'other') {
             setShowAdresseForm(true);
@@ -66,7 +67,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
     };
 
     // Mise à jour des données d'adresse personnalisée après l'ajout dans AdresseForm
-    const handleCustomAdresseSubmit = async (newAdresseData) => {
+    const handleCustomAdresseSubmit = async (newAdresseData: any) => {
         await fetchAdresses();
 
         setFormData((prevData) => ({
@@ -78,7 +79,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
     };
 
     // Gestion de la soumission du formulaire
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -96,7 +97,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
             } else {
                 setErrorMessage(result.message);
             }
-        } catch (e) {
+        } catch (e: any) {
             console.log(e)
             setErrorMessage("Une erreur est survenue. Veuillez réessayer. ");
         }
@@ -208,7 +209,7 @@ export default function EntrepriseForm({ onSubmit, entrepriseData, isEditMode, r
                         className="input input-bordered w-full"
                     >
                         <option value="">Sélectionnez une adresse</option>
-                        {adressesList.map((adresse) => (
+                        {adressesList.map((adresse: Adresse) => (
                             <option key={adresse.id} value={adresse.id}>
                                 {stringAdresse(adresse)}
                             </option>

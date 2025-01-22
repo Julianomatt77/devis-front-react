@@ -3,7 +3,7 @@ import {deleteEntreprise} from "@/services/data/data-entreprises";
 import {stringAdresse} from "@/services/lib/utils";
 import {useState} from "react";
 
-export function CardEntreprise({ data, onEditData, refreshData }) {
+export function CardEntreprise({ data, onEditData, refreshData }: any) {
     const {adresse, codeApe, contact, email,  nom, siret, telephone1, telephone2, tvaIntracom, web} = data;
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -13,7 +13,7 @@ export function CardEntreprise({ data, onEditData, refreshData }) {
         displayAdresse = stringAdresse(adresse)
     }
 
-    const deleteData = async (id) => {
+    const deleteData = async (id: number) => {
         setErrorMessage(null); // Réinitialise les messages
         setSuccessMessage(null);
 

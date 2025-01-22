@@ -14,7 +14,7 @@ export async function getAdresses() {
     return {ok: true, message: response.message, data: response.data};
 }
 
-export async function addAdresse(formData: FormData){
+export async function addAdresse(formData: Adresse){
     try {
         const url = import.meta.env.VITE_API_URL + 'adresses';
         const token = getTokenFromCookie();
@@ -40,7 +40,7 @@ export async function addAdresse(formData: FormData){
     }
 }
 
-export async function editAdresse(formData: FormData){
+export async function editAdresse(formData: Adresse){
     try {
         const url = import.meta.env.VITE_API_URL + 'adresses/' + formData.id;
         const token = getTokenFromCookie();

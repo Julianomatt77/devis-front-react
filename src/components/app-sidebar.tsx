@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Book,
     Building2,
@@ -81,11 +80,16 @@ const itemsFixed = [
 ]
 
 export function AppSidebar() {
-    const { isAuthenticated, logout } = useAuth();
     const isMobile = useIsMobile()
     const matcher= ['/devis', '/clients', '/entreprises', '/adresses', '/elements', '/prestations', '/dashboard']
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const authContext = useAuth();
+
+    if (!authContext) {
+        return <div>Erreur d'authentification</div>;
+    }
+    const { isAuthenticated, logout } = authContext;
 
     function handleLogout() {
         logout()

@@ -14,7 +14,7 @@ export async function getDevis() {
     return {ok: true, message: response.message, data: response.data};
 }
 
-export async function addDevis(formData: FormData){
+export async function addDevis(formData: Devis){
     try {
         const url = import.meta.env.VITE_API_URL + 'devis';
         const token = getTokenFromCookie();
@@ -40,7 +40,7 @@ export async function addDevis(formData: FormData){
     }
 }
 
-export async function editDevis(formData: FormData){
+export async function editDevis(formData: Devis){
     try {
         const url = import.meta.env.VITE_API_URL + 'devis/' + formData.id;
         const token = getTokenFromCookie();

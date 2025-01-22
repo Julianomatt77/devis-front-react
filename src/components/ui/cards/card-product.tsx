@@ -2,11 +2,11 @@ import {Button} from "@/components/ui/button";
 import {deleteProduct} from "@/services/data/data-products";
 import {useState} from "react";
 
-export function CardProduct({ data, onEditData, refreshData }) {
+export function CardProduct({ data, onEditData, refreshData }: any) {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const deleteData = async (id) => {
+    const deleteData = async (id: number) => {
         setErrorMessage(null);
         setSuccessMessage(null);
 

@@ -5,9 +5,16 @@ import {CardClient} from "@/components/ui/cards/card-client";
 import {CardAdresse} from "@/components/ui/cards/card-adresse";
 import {CardProduct} from "@/components/ui/cards/card-product";
 import {CardEntreprise} from "@/components/ui/cards/card-entreprise";
-import {CardPrestation} from "@/components/ui/cards/card-prestation";
 
-export default function CardWrapper({ data, onEditData, type, isDashboard, refreshData }) {
+interface CardWrapperProps {
+    data: any;
+    onEditData?: any;  // Propriété optionnelle
+    type: string;
+    isDashboard: boolean;
+    refreshData?: any;  // Propriété optionnelle
+}
+
+export default function CardWrapper({ data, onEditData, type, isDashboard, refreshData }: CardWrapperProps) {
 
     if (isDashboard) {
         if (type === "dashboardClient") {
@@ -15,7 +22,7 @@ export default function CardWrapper({ data, onEditData, type, isDashboard, refre
                 <div id={"card-wrapper"} className={"flex flex-wrap justify-center gap-5"}>
                     {/*<div className="flow-root">*/}
                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {data.map((item) => {
+                        {data.map((item: Client) => {
                             return <DashboardCardClient data={item} key={item.id} />
                         })}
                     </ul>
@@ -28,7 +35,7 @@ export default function CardWrapper({ data, onEditData, type, isDashboard, refre
             return (
                 <div id={"card-dashboardDevis-wrapper"} className={"flex flex-wrap justify-center gap-5"}>
                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700 w-full">
-                        {data.map((item) => {
+                        {data.map((item: Devis) => {
                             return <DashboardCardDevis data={item} key={item.id} />
                         })}
                     </ul>
@@ -41,7 +48,7 @@ export default function CardWrapper({ data, onEditData, type, isDashboard, refre
         return (
             <div id={"card-devis-wrapper"} className={"flex flex-wrap justify-center gap-5 w-full"}>
                 <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-200 w-full">
-                    {data.map((item) => {
+                    {data.map((item: Devis) => {
                         return <CardDevis
                             data={item}
                             key={item.id}
@@ -56,7 +63,7 @@ export default function CardWrapper({ data, onEditData, type, isDashboard, refre
 
     return (
         <div id={"card-wrapper"} className={"flex flex-wrap justify-center gap-5"}>
-            {data.map((item) => {
+            {data.map((item: any) => {
                 if (type === "client") {
                     return <CardClient
                         data={item}
@@ -94,14 +101,14 @@ export default function CardWrapper({ data, onEditData, type, isDashboard, refre
                     />
                 }
 
-                if (type === "prestation") {
-                    return <CardPrestation
-                        data={item}
-                        key={item.id}
-                        onEditData={onEditData}
-                        refreshData={refreshData}
-                    />
-                }
+                // if (type === "prestation") {
+                //     return <CardPrestation
+                //         data={item}
+                //         key={item.id}
+                //         onEditData={onEditData}
+                //         refreshData={refreshData}
+                //     />
+                // }
             })}
 
         </div>

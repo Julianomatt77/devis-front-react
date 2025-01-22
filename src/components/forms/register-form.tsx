@@ -1,11 +1,8 @@
 'use client';
 
 import {AtSign, KeyRound, SquareChevronRight, UserRoundPen} from "lucide-react";
-// import {useFormStatus} from "react-dom";
 import {Button} from "@/components/ui/button";
 import {useState} from "react";
-// import {useRouter} from "next/navigation";
-// import {register} from "@/lib/actions";
 import {useNavigate} from "react-router-dom";
 import {register} from "@/services/lib/actions";
 
@@ -14,9 +11,8 @@ export default function RegisterForm() {
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
     const navigate = useNavigate();
-    // const router = useRouter();
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: any) {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -27,11 +23,10 @@ export default function RegisterForm() {
         const formData = new FormData(form);
 
         try {
-            const result = await register(undefined, formData);
+            const result = await register(formData);
             if (result.ok) {
                 setSuccessMessage(result.message);
 
-                // Redirection
                 setTimeout(() => {
                    navigate('/login');
                 }, 1000);

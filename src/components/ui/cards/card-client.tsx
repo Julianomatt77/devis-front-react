@@ -4,7 +4,7 @@ import {deleteClients} from "@/services/data/data-clients";
 import {Button} from "@/components/ui/button";
 import {useNavigate} from "react-router-dom";
 
-export function CardClient({ data, onEditData, refreshData }) {
+export function CardClient({ data, onEditData, refreshData }: any) {
     const {adresse, email, nom, prenom, telephone} = data;
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export function CardClient({ data, onEditData, refreshData }) {
         displayAdresse = stringAdresse(adresse)
     }
 
-    const deleteClient = async (clientId) => {
+    const deleteClient = async (clientId: number) => {
         setErrorMessage(null);
         setSuccessMessage(null);
 

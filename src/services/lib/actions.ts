@@ -2,10 +2,8 @@ import {getUserInfo, signIn} from "@/services/lib/auth";
 import {getTokenFromCookie} from "@/services/lib/utils";
 
 export async function authenticate(
-    prevState: string | undefined,
     formData: FormData,
 ) {
-    const url = import.meta.env.VITE_API_URL + 'login_check';
     try {
         const response = await signIn(formData);
 
@@ -24,13 +22,12 @@ export async function authenticate(
 
         return { ok: false, message: "Une erreur est survenue lors de l'authentification." };
 
-    } catch (error) {
+    } catch (error: any) {
         return { ok: false, message: `Erreur lors de l'authentification: ${error.error}` };
     }
 }
 
 export async function register(
-    prevState: string | undefined,
     formData: FormData,
 ) {
     try {
@@ -60,7 +57,7 @@ export async function register(
 
         return {ok: false, message: "Une erreur est survenue lors de l'enregistrement."};
 
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de l'authentification: ${error.error}`};
     }
 }
@@ -86,7 +83,7 @@ export async function deleteAccount() {
     return await response.json();
 }
 
-export async function create(body, url: string, token: string) {
+export async function create(body: any, url: string, token: string) {
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -105,12 +102,12 @@ export async function create(body, url: string, token: string) {
 
         const data = await response.json();
         return {ok: true, data: data};
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de la requête: ${error.error}`};
     }
 }
 
-export async function update(body, url: string, token: string) {
+export async function update(body: any, url: string, token: string) {
     try {
         const response = await fetch(url, {
             method: "PATCH",
@@ -130,7 +127,7 @@ export async function update(body, url: string, token: string) {
 
         const data = await response.json();
         return {ok: true, data: data};
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de la requête: ${error}`};
     }
 }
@@ -153,7 +150,7 @@ export async function deleteItem(url: string, token: string) {
         }
 
         return {ok: true, message: "Suppression effectuée avec succès !", status: response.status};
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de la requête: ${error.error}`};
     }
 }
@@ -180,12 +177,12 @@ export async function recuperer(url: string, token: string) {
         }
 
         return {ok: true, message: "Erreur lors de la récupération", status: response.status};
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de la requête GET: ${error.error}`};
     }
 }
 
-export async function sendMail(formData: FormData) {
+export async function sendMail(formData: {from: string, subject: string, message: string}) {
     const url = import.meta.env.VITE_API_URL + 'contact';
     const body = JSON.stringify({
         from: formData.from,
@@ -210,7 +207,7 @@ export async function sendMail(formData: FormData) {
 
         const data = await response.json();
         return {ok: true, message: data.message};
-    } catch (error) {
+    } catch (error: any) {
         return {ok: false, message: `Erreur lors de la requête: ${error.error}`};
     }
 }

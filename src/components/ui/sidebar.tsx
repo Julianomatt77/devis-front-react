@@ -586,7 +586,7 @@ const SidebarMenuButton = React.forwardRef<
     ) => {
         const Comp = asChild ? Slot : "button"
         const { isMobile, state } = useSidebar()
-        const title = props.children.props.title
+        const title = React.isValidElement(props.children) ? props.children.props.title : undefined;
 
         const button = (
             <Comp

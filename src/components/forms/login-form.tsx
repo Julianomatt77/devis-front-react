@@ -9,10 +9,16 @@ export default function LoginForm() {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
-    const { login } = useAuth();
     const navigate = useNavigate();
+    const authContext = useAuth();
 
-    async function handleSubmit(e) {
+    if (!authContext) {
+        return <div>Erreur d'authentification</div>;
+    }
+    const { login } = authContext;
+
+
+    async function handleSubmit(e: any) {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -21,7 +27,7 @@ export default function LoginForm() {
         const form = e.currentTarget;
         const formData = new FormData(form);
         try {
-            const result = await authenticate(undefined, formData);
+            const result = await authenticate(formData);
             if (result.ok) {
                 login(result.userInfo, result.token);
                 setSuccessMessage("Connexion réussie ! Vous allez être rediriger vers votre dashboard.");

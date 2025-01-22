@@ -6,7 +6,7 @@ import {useState} from "react";
 import WarningModal from "@/components/WarningModal";
 import Modal from "@/components/ui/modal";
 
-export function CardDevis({ data, onEditData, refreshData }) {
+export function CardDevis({ data, onEditData, refreshData }: any) {
     const {reference, client, createdAt, updatedAt, paidAt, totalTTC} = data;
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -21,7 +21,7 @@ export function CardDevis({ data, onEditData, refreshData }) {
 
     const paid = paidAt ? "checked" : ""
 
-    const deleteData = async (id) => {
+    const deleteData = async (id: number) => {
         setErrorMessage(null); // Réinitialise les messages
         setSuccessMessage(null);
 

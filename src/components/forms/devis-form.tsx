@@ -7,14 +7,14 @@ import {addDevis, editDevis} from "@/services/data/data-devis";
 import {getClients} from "@/services/data/data-clients";
 import ClientForm from "@/components/forms/client-form";
 
-export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData }) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData }:
+{ onSubmit: any, devisData?: any, isEditMode: boolean, refreshData?: any }) {
+    const [errorMessage, setErrorMessage] = useState<any | null>(null);
+    const [successMessage, setSuccessMessage] = useState<any | null>(null);
     const [entreprisesList, setEntreprisesList] = useState([]);
     const [clientsList, setClientsList] = useState([]);
     const [showClientForm, setShowClientForm] = useState(false);
     const [formData, setFormData] = useState({
-        id: '',
         reference: '',
         paidAt: '',
         dateDebutPrestation: '',
@@ -61,7 +61,7 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
     }, [devisData]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -69,12 +69,12 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
         }));
     };
 
-    const handleEntrepriseChange = (e) => {
+    const handleEntrepriseChange = (e: any) => {
         const selectedValue = e.target.value;
         setFormData((prevData) => ({ ...prevData, entreprise: selectedValue }));
     };
 
-    const handleClientChange = (e) => {
+    const handleClientChange = (e: any) => {
         const selectedValue = e.target.value;
         if (selectedValue === 'other') {
             setShowClientForm(true);
@@ -86,7 +86,7 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
     };
 
     // Mise à jour des données d'adresse personnalisée après l'ajout dans AdresseForm
-    const handleCustomClientSubmit = async (newClient) => {
+    const handleCustomClientSubmit = async (newClient: any) => {
         await fetchClients();
 
         // Sélectionner automatiquement la nouvelle adresse ajoutée
@@ -98,7 +98,7 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
         setShowClientForm(false);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);
@@ -148,7 +148,7 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
                     className="input input-bordered w-full"
                 >
                     <option value="">Sélectionnez une entreprise</option>
-                    {entreprisesList.map((entreprise) => (
+                    {entreprisesList.map((entreprise: Entreprise) => (
                         <option key={entreprise.id} value={entreprise.id}>
                             {entreprise.nom}
                         </option>
@@ -165,7 +165,7 @@ export default function DevisForm({ onSubmit, devisData, isEditMode, refreshData
                     className="input input-bordered w-full"
                 >
                     <option value="">Sélectionnez un client</option>
-                    {clientsList.map((client) => (
+                    {clientsList.map((client: Client) => (
                         <option key={client.id} value={client.id}>
                             {client.nom} {client.prenom}
                         </option>

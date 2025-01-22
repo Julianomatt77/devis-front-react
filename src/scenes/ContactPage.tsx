@@ -26,7 +26,7 @@ function ContactForm() {
     const [formData, setFormData] = useState(initialFormData);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -34,7 +34,7 @@ function ContactForm() {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);

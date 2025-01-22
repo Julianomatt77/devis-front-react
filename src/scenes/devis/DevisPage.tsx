@@ -20,7 +20,7 @@ export default function DevisPage() {
             const result = await getDevis();
             if (result.ok) {
                 const fetchedDevis = result.data;
-                const activeDevis = fetchedDevis.filter((devis) => !devis.deletedAt)
+                const activeDevis = fetchedDevis.filter((devis: Devis) => !devis.deletedAt)
                 const filteredDevis = search || clientId ? searchFilter(activeDevis, search, clientId) : activeDevis
 
                 setData(filteredDevis);
@@ -33,7 +33,7 @@ export default function DevisPage() {
         const result = await getDevis();
         if (result.ok) {
             const updatedDevis = result.data;
-            const activeDevis = updatedDevis.filter((devis) => !devis.deletedAt)
+            const activeDevis = updatedDevis.filter((devis: Devis) => !devis.deletedAt)
 
             const filteredDevis = search || clientId ? searchFilter(activeDevis, search, clientId) : activeDevis
 
@@ -41,17 +41,17 @@ export default function DevisPage() {
         }
     };
 
-    const refreshSearch = (e) =>{
+    const refreshSearch = (e: any) =>{
         setSearch(e);
         refreshData();
     }
 
-    const refreshClient = (clientId) =>{
+    const refreshClient = (clientId: any) =>{
         setClientId(clientId);
         refreshData();
     }
 
-    const openEditModal = (devis) => {
+    const openEditModal = (devis: any) => {
         if (devis && devis.id) {
             setSelectedDevis(devis);
             navigate(`/devis/${devis.id}`);
@@ -60,7 +60,7 @@ export default function DevisPage() {
         }
     };
 
-    const closeModal = (devis) => {
+    const closeModal = (devis: any) => {
         if (devis.id) {
             setSelectedDevis(devis);
         }
@@ -115,14 +115,14 @@ export default function DevisPage() {
     )
 }
 
-function searchFilter(devisList, search, clientId){
+function searchFilter(devisList: any[], search: string, clientId: string){
     if (clientId) {
-        return devisList.filter((devis) => {
+        return devisList.filter((devis: any) => {
             return devis.client.id == clientId;
         });
     }
 
-    return devisList.filter((devis) => {
+    return devisList.filter((devis: any) => {
         const referenceMatch = devis.reference.toLowerCase().includes(search);
         const nomMatch = devis.client.nom.toLowerCase().includes(search);
         const prenomMatch = devis.client.prenom.toLowerCase().includes(search);

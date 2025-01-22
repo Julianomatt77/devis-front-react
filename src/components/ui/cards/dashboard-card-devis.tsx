@@ -1,7 +1,7 @@
 import {CircleCheckBig, CircleDashed} from "lucide-react";
 import {formatDate, transformPriceToEuro} from "@/services/lib/utils";
 
-export function DashboardCardDevis(props: {data}) {
+export function DashboardCardDevis(props: {data: any}) {
     const {data} = props;
     const {client, totalTTC, reference, paidAt, createdAt, updatedAt} = data;
 

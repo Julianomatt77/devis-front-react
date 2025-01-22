@@ -2,9 +2,9 @@ import {addProduct, editProduct} from "@/services/data/data-products";
 import {Button} from "@/components/ui/button";
 import {useEffect, useState} from "react";
 
-export default function ProductForm({ onSubmit, data, isEditMode, refreshData }) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+export default function ProductForm({ onSubmit, data, isEditMode, refreshData }: any) {
+    const [errorMessage, setErrorMessage] = useState<any | null>(null);
+    const [successMessage, setSuccessMessage] = useState<any | null>(null);
     const [formData, setFormData] = useState({
         nom: ''
     });
@@ -16,7 +16,7 @@ export default function ProductForm({ onSubmit, data, isEditMode, refreshData })
     }, [data]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -25,7 +25,7 @@ export default function ProductForm({ onSubmit, data, isEditMode, refreshData })
     };
 
     // Gestion de la soumission du formulaire
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null);
         setSuccessMessage(null);

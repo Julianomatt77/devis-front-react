@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(dateString) {
+export function formatDate(dateString: string) {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() retourne 0-11, donc on ajoute 1
@@ -14,7 +14,7 @@ export function formatDate(dateString) {
   return `${day}/${month}/${year}`;
 }
 
-export function transformDateTimeToDate(dateTime) {
+export function transformDateTimeToDate(dateTime: string) {
   const date = new Date(dateTime);
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() retourne 0-11, donc on ajoute 1
@@ -23,11 +23,11 @@ export function transformDateTimeToDate(dateTime) {
   return `${year}-${month}-${day}`;
 }
 
-export function transformPriceToEuro(price) {
+export function transformPriceToEuro(price: number) {
   return (price / 100).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
 }
 
-export function stringAdresse(adresse){
+export function stringAdresse(adresse: { cp: string, ville: string, pays: string, rue?: string, complementaire?: string, numero?: number }){
   const {complementaire, cp, numero,  pays, rue, ville} = adresse;
   const adresseParts = [];
 
@@ -41,7 +41,7 @@ export function stringAdresse(adresse){
   return adresseParts.join(' ');
 }
 
-export function stringAdresseRue(adresse){
+export function stringAdresseRue(adresse: { rue?: string, complementaire?: string, numero?: number }){
   const {rue, complementaire,  numero} = adresse;
   const adresseParts = [];
 
@@ -52,7 +52,7 @@ export function stringAdresseRue(adresse){
   return adresseParts.join(' ');
 }
 
-export function stringAdresseVille(adresse){
+export function stringAdresseVille(adresse: { cp: string, ville: string, pays: string }){
   const {cp,  pays, ville} = adresse;
   const adresseParts = [];
 
@@ -63,8 +63,8 @@ export function stringAdresseVille(adresse){
   return adresseParts.join(' ');
 }
 
-export function getCookies() {
-  const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+export function getCookies(): { [key: string]: string } {
+  const cookies = document.cookie.split('; ').reduce<{ [key: string]: string }>((acc, cookie) => {
     const [key, value] = cookie.split('=');
     acc[key] = value;
     return acc;
@@ -73,6 +73,8 @@ export function getCookies() {
   return cookies;
 }
 
-export function getTokenFromCookie(){
-  return getCookies()['devis_token'];
+
+export function getTokenFromCookie(): string{
+  const cookies: { [key: string]: string } = getCookies();
+  return cookies['devis_token'];
 }

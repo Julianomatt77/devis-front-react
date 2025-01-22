@@ -5,25 +5,19 @@ import {stringAdresse} from "@/services/lib/utils";
 import {Button} from "@/components/ui/button";
 import AdresseForm from "@/components/forms/adresse-form";
 
-export default function ClientForm({ onSubmit, clientData, isEditMode, refreshData }) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+export default function ClientForm({ onSubmit, clientData = null, isEditMode, refreshData }:
+{ onSubmit: any, clientData?: any, isEditMode: boolean, refreshData: any }) {
+    const [errorMessage, setErrorMessage] = useState<any | null>(null);
+    const [successMessage, setSuccessMessage] = useState<any | null>(null);
     const [adressesList, setAdressesList] = useState([]);
     const [showAdresseForm, setShowAdresseForm] = useState(false);
     const [formData, setFormData] = useState({
-        id: '',
         nom: '',
         prenom: '',
         email: '',
         telephone: '',
         adresse: '',
     });
-
-    // let displayAdresse = '';
-    // if (clientData && clientData.adresse) {
-    //     // Concatenation de la liste des champs de l'adresse
-    //     displayAdresse = stringAdresse(clientData.adresse)
-    // }
 
     // Récupérer la liste d'adresses
     const fetchAdresses = async () => {
@@ -45,7 +39,7 @@ export default function ClientForm({ onSubmit, clientData, isEditMode, refreshDa
     }, [clientData]);
 
     // Gestion des changements dans les inputs
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -54,7 +48,7 @@ export default function ClientForm({ onSubmit, clientData, isEditMode, refreshDa
     };
 
     // Gestion de la sélection de l'adresse
-    const handleAdresseChange = (e) => {
+    const handleAdresseChange = (e: any) => {
         const selectedValue = e.target.value;
         if (selectedValue === 'other') {
             setShowAdresseForm(true); // Afficher le formulaire d'adresse
@@ -66,7 +60,7 @@ export default function ClientForm({ onSubmit, clientData, isEditMode, refreshDa
     };
 
     // Mise à jour des données d'adresse personnalisée après l'ajout dans AdresseForm
-    const handleCustomAdresseSubmit = async (newAdresseData) => {
+    const handleCustomAdresseSubmit = async (newAdresseData: any) => {
         // Réactualiser la liste des adresses après l'ajout
         await fetchAdresses();
 
@@ -81,7 +75,7 @@ export default function ClientForm({ onSubmit, clientData, isEditMode, refreshDa
     };
 
     // Gestion de la soumission du formulaire
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrorMessage(null); // Réinitialise les messages
         setSuccessMessage(null);
@@ -160,7 +154,7 @@ export default function ClientForm({ onSubmit, clientData, isEditMode, refreshDa
                     className="input input-bordered w-full"
                 >
                     <option value="">Sélectionnez une adresse</option>
-                    {adressesList.map((adresse) => (
+                    {adressesList.map((adresse: Adresse) => (
                         <option key={adresse.id} value={adresse.id}>
                             {stringAdresse(adresse)}
                         </option>

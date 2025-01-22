@@ -14,7 +14,7 @@ export async function getClients() {
     return {ok: true, message: response.message, data: response.data};
 }
 
-export async function addClient(formData: FormData){
+export async function addClient(formData: Client){
     try {
         const url = import.meta.env.VITE_API_URL + 'clients';
         const token = getTokenFromCookie();
@@ -39,7 +39,7 @@ export async function addClient(formData: FormData){
     }
 }
 
-export async function editClient(formData: FormData){
+export async function editClient(formData: Client){
     try {
         const url = import.meta.env.VITE_API_URL + 'clients/' + formData.id;
         const token = getTokenFromCookie();

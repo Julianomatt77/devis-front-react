@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "@/scenes/HomePage";
 import LoginPage from "@/scenes/LoginPage";
@@ -9,7 +8,6 @@ import ClientsPage from "@/scenes/ClientsPage";
 import ContactPage from "@/scenes/ContactPage";
 import DashboardPage from "@/scenes/DashboardPage";
 import EntreprisesPage from "@/scenes/EntreprisesPage";
-import PrestationsPage from "@/scenes/PrestationsPage";
 import ProduitsPage from "@/scenes/ProduitsPage";
 import DevisPage from "@/scenes/devis/DevisPage";
 import DevisDetailPage from "@/scenes/devis/DevisDetailPage";
