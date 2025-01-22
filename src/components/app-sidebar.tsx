@@ -104,6 +104,10 @@ export function AppSidebar() {
         ? itemsDynamics
         : itemsDynamics.filter(item => item.title === "Accueil");
 
+    const intermediateItemsVisible = isAuthenticated
+        ? intermediateItems
+        : [];
+
     return (
         <Sidebar>
             <SidebarContent className={"h-full flex flex-col justify-between"}>
@@ -132,7 +136,7 @@ export function AppSidebar() {
                 <SidebarGroup className={"mb-8"}>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {intermediateItems.map((item) => (
+                            {intermediateItemsVisible.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild className={"my-2"}>
                                         <a href={item.url} title={item.title}>
