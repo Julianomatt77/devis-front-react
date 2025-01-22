@@ -1,13 +1,26 @@
 import {Link} from "react-router-dom";
 import {Button} from "@/components/ui/button";
+import devisgenerator_logo from "@/assets/logo_devisgenerator_100x100.webp";
 
 function homePage() {
     return (
         <div className="min-h-screen flex flex-col">
             <header className="text-center py-12">
-                <h1 className="text-4xl font-bold text-text">
-                    Devis Generator
-                </h1>
+                <div className="flex items-center justify-center gap-8">
+                    <h1 className="text-4xl font-bold text-text">
+                        Devis Generator
+                    </h1>
+                    <div>
+                        <img
+                            src={devisgenerator_logo}
+                            alt="Logo Devis Generator"
+                            className="w-100 h-100 mx-auto dark:bg-white rounded-full"
+                            width={100}
+                            height={100}
+                        />
+                    </div>
+                </div>
+
                 <p className="mt-4 text-lg text-text-800">
                     Générateur de devis gratuit.
                 </p>
