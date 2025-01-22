@@ -116,7 +116,7 @@ export function AppSidebar() {
                     <div className={"absolute top-4 right-4"}>
                         {isMobile && <SidebarTriggerClose />}
                     </div>
-                    <SidebarGroupLabel className={"text-2xl mt-9"}>Devis Generator</SidebarGroupLabel>
+                    <SidebarGroupLabel className={"text-2xl mt-9 text-text"}>Devis Generator</SidebarGroupLabel>
                     <SidebarGroupContent className={"mt-4 "}>
                         <SidebarMenu>
                             {visibleItems.map((item) => (
