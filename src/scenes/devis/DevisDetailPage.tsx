@@ -1,11 +1,13 @@
 import {Button} from "@/components/ui/button";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getOneDevis} from "@/services/data/data-devis";
 import ModalTrigger from "@/components/ModalTrigger";
 import {formatDate, stringAdresseRue, stringAdresseVille, transformPriceToEuro} from "@/services/lib/utils";
 import {CircleCheckBig, CircleDashed} from "lucide-react";
 import PrestationModalTrigger from "@/components/PrestationModalTrigger";
+import PdfTemplate from "@/components/pdf-template";
+import { pdf } from '@react-pdf/renderer';
 
 export default function DevisDetailPage() {
     const {id} = useParams();
@@ -13,7 +15,7 @@ export default function DevisDetailPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const updatedParams = new URLSearchParams(location.search);
-    const updated = updatedParams.get('updated') || ""
+    const updated = updatedParams.get('updated') || "";
 
     useEffect(() => {
         async function fetchData() {
@@ -65,6 +67,18 @@ export default function DevisDetailPage() {
 
     const paid = paidAt ? "checked" : "";
 
+    const handleDownload = async () => {
+        const blob = await pdf(<PdfTemplate data={devis} formatData={formatDevisData(devis)}
+        />).toBlob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = devis.reference + '.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <main id={"devis-" + id} className="flex flex-col items-between justify-start p-4 w-full">
             <section id={"devis-actions-section"} className={"flex items-center justify-between gap-4 p-4"}>
@@ -72,6 +86,22 @@ export default function DevisDetailPage() {
                 <ModalTrigger devisData={devis} id={Number(id)} />
             </section>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            <Button onClick={handleDownload}>Télécharger PDF</Button>
+
+            {/*<ExportButton targetRef={pdfRef} filename={devis.reference + ".pdf"} />*/}
+            {/*<ReactToPdf targetRef={pdfRef} filename={devis.reference+ ".pdf"} options={{ format: "a4" }}>*/}
+            {/*    {({ toPdf }) => (*/}
+            {/*        <Button*/}
+            {/*            onClick={toPdf}*/}
+            {/*        >*/}
+            {/*            Exporter en PDF*/}
+            {/*        </Button>*/}
+            {/*    )}*/}
+            {/*</ReactToPdf>*/}
+            {/*/!* Template PDF caché *!/*/}
+            {/*<div ref={pdfRef} style={{ display: "none" }}>*/}
+            {/*    <PdfTemplate data={devis} />*/}
+            {/*</div>*/}
             {/*{devis && prixHtCalcule && tvaCalcule && totalTTCCalcule && <PDFExportButton*/}
             {/*    devis={devis}*/}
             {/*    prixHtCalcule={prixHtCalcule}*/}
@@ -167,7 +197,7 @@ export default function DevisDetailPage() {
                         <div key={prestation.id} className={`w-full p-4 ${
                             "lg:grid lg:grid-cols-8 lg:gap-x-2 lg:items-center lg:justify-items-center lg:border-none"
                         } ${
-                            "border flex flex-col gap-y-2" // Affichage en card sur les petits écrans
+                            "border flex flex-col gap-y-2"
                         }`}
                         >
                             <p className="font-bold lg:font-normal">{prestation.element.nom}</p>
