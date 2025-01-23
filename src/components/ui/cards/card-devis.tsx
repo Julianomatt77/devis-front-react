@@ -7,7 +7,7 @@ import WarningModal from "@/components/WarningModal";
 import Modal from "@/components/ui/modal";
 
 export function CardDevis({ data, onEditData, refreshData }: any) {
-    const {reference, client, createdAt, updatedAt, paidAt, totalTTC} = data;
+    const {reference, client, createdAt, updatedAt, paidAt, totalTTC, entreprise} = data;
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -22,7 +22,7 @@ export function CardDevis({ data, onEditData, refreshData }: any) {
     const paid = paidAt ? "checked" : ""
 
     const deleteData = async (id: number) => {
-        setErrorMessage(null); // Réinitialise les messages
+        setErrorMessage(null);
         setSuccessMessage(null);
 
         try {
@@ -50,7 +50,12 @@ export function CardDevis({ data, onEditData, refreshData }: any) {
                 </div>
                 <div className="flex min-w-0 gap-4">
                     <p className="text-sm text-gray-900 dark:text-white">
-                        <span className={"dark:text-gray-400"}>Client: </span>{client.nom} {client.prenom}
+                        <span className={"dark:text-gray-400 capitalize"}>Client: </span>
+                        <span className={"uppercase"}>{client.nom}</span> {client.prenom}
+                    </p>
+                    <p className="text-sm text-gray-900 dark:text-white">
+                        <span className={"dark:text-gray-400 capitalize"}>Entreprise: </span>
+                        {entreprise.nom}
                     </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">

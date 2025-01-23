@@ -140,7 +140,7 @@ export default function DevisDetailPage() {
                 </div>
                 <div id={"infos-client"}>
                     <h2 className={"underline mb-4"}>Destinataire :</h2>
-                    <p>{clientNom} {clientPrenom}</p>
+                    <p className={"capitalize"}><span className={"uppercase"}>{clientNom}</span> {clientPrenom}</p>
                     <p>{clientAdresseRue}</p>
                     <p>{clientAdresseVille}</p>
                 </div>
@@ -210,6 +210,7 @@ export default function DevisDetailPage() {
                     {entreprise.tvaIntracom && <p>Numéro de TVA intracommunautaire: {entreprise.tvaIntracom}</p>}
                 </div>
                 <div id={"contact-section"}>
+                    {entreprise.contact && <p className={"capitalize"}>{entreprise.contact}</p>}
                     {entreprise.web && <p><a href={entreprise.web} target={"blank"} className={"underline"}>{entreprise.web}</a></p>}
                     {entreprise.email && <p><a href={"mailto:" + entreprise.email}>{entreprise.email}</a></p>}
                     {entreprise.telephone1 && <p>Téléphone 1: {entreprise.telephone1}</p>}
