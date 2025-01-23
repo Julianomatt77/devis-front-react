@@ -1,15 +1,14 @@
 export default function CguPage() {
     return (
-        <main className={"flex flex-col items-center justify-center px-6"}>
-            <div className={"pb-8"}>
+        <main className={"flex flex-col items-start justify-center px-6"}>
+            <div className={"pb-8 flex flex-col items-center mx-auto"}>
                 <h1 className={"text-4xl font-bold capitalize"}>Conditions générales d&apos;utilisation</h1>
                 <h2 className={"text-md mt-1"}>En vigueur au 17/01/2025</h2>
             </div>
             <div className={"pb-8"}>
                 <h2 className={"text-xl font-bold pb-4"}>Article 1 : Les mentions légales</h2>
                 <p>
-                    L’édition et la direction de la publication du site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank">https://devisgenerator.martin-julien-dev.fr</a>
-                    est assurée par MARTIN Julien, domicilié en FRANCE.</p>
+                    L’édition et la direction de la publication du site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank">https://devisgenerator.martin-julien-dev.fr</a> est assurée par MARTIN Julien, domicilié en FRANCE.</p>
                 <p>Adresse e-mail:<br />
                     <a href="mailto:contact@martin-julien-dev.fr">contact&#64;martin-julien-dev.fr</a>
                 </p>
@@ -17,10 +16,8 @@ export default function CguPage() {
             <div className={"pb-8"}>
                 <h2 className={"text-xl font-bold pb-4"}>ARTICLE 2 : Accès au site</h2>
                 <p>
-                    Le site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank">
-                        https://devisgenerator.martin-julien-dev.fr</a>
-                    permet à l&#39;Utilisateur un accès gratuit aux services suivants : <br />
+                    Le site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank">
+                        https://devisgenerator.martin-julien-dev.fr</a> permet à l&#39;Utilisateur un accès gratuit aux services suivants : <br />
                     Gestion des dépenses et entretien de ses motos<br />
                     Le site est accessible gratuitement en tout lieu à tout Utilisateur ayant
                     un accès à Internet. Tous les frais supportés par l&#39;Utilisateur pour
@@ -42,8 +39,7 @@ export default function CguPage() {
                     Celle-ci sera effective dans un délai raisonnable. Tout événement dû à un
                     cas de force majeure ayant pour conséquence un dysfonctionnement du site
                     ou serveur et sous réserve de toute interruption ou modification en cas de
-                    maintenance, n&#39;engage pas la responsabilité de
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    maintenance, n&#39;engage pas la responsabilité de<a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
                     >https://devisgenerator.martin-julien-dev.fr</a>. Dans ces cas, l’Utilisateur accepte ainsi ne pas tenir rigueur à
                     l’éditeur de toute interruption ou suspension de service, même sans
                     préavis. L&#39;Utilisateur a la possibilité de contacter le site par
@@ -83,26 +79,20 @@ export default function CguPage() {
             <div className={"pb-8"}>
                 <h2 className={"text-xl font-bold pb-4"}>ARTICLE 5 : Responsabilité</h2>
                 <p>
-                    Les sources des informations diffusées sur le site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
-                    >https://devisgenerator.martin-julien-dev.fr</a>
-                    sont réputées fiables mais le site ne garantit pas qu’il soit exempt de
+                    Les sources des informations diffusées sur le site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    >https://devisgenerator.martin-julien-dev.fr</a> sont réputées fiables mais le site ne garantit pas qu’il soit exempt de
                     défauts, d’erreurs ou d’omissions. Les informations communiquées sont
                     présentées à titre indicatif et général sans valeur contractuelle. Malgré
-                    des mises à jour régulières, le site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
-                    >https://devisgenerator.martin-julien-dev.fr/</a>
-                    ne peut être tenu responsable de la modification des dispositions
+                    des mises à jour régulières, le site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    >https://devisgenerator.martin-julien-dev.fr/</a> ne peut être tenu responsable de la modification des dispositions
                     administratives et juridiques survenant après la publication. De même, le
                     site ne peut être tenue responsable de l’utilisation et de
                     l’interprétation de l’information contenue dans ce site. L&#39;Utilisateur
                     s&#39;assure de garder son mot de passe secret. Toute divulgation du mot de
                     passe, quelle que soit sa forme, est interdite. Il assume les risques liés
                     à l&#39;utilisation de son identifiant et mot de passe. Le site décline toute
-                    responsabilité. Le site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
-                    >https://devisgenerator.martin-julien-dev.fr</a>
-                    ne peut être tenu pour responsable d’éventuels virus qui pourraient
+                    responsabilité. Le site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    >https://devisgenerator.martin-julien-dev.fr</a> ne peut être tenu pour responsable d’éventuels virus qui pourraient
                     infecter l’ordinateur ou tout matériel informatique de l’Internaute, suite
                     à une utilisation, à l’accès, ou au téléchargement provenant de ce site.
                     La responsabilité du site ne peut être engagée en cas de force majeure ou
@@ -113,8 +103,7 @@ export default function CguPage() {
                 <h2 className={"text-xl font-bold pb-4"}>ARTICLE 6 : Liens hypertextes</h2>
                 <p>
                     Des liens hypertextes peuvent être présents sur le site. L’Utilisateur est
-                    informé qu’en cliquant sur ces liens, il sortira du site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    informé qu’en cliquant sur ces liens, il sortira du site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
                     >https://devisgenerator.martin-julien-dev.fr</a>. Ce dernier n’a pas de contrôle sur les pages web sur lesquelles
                     aboutissent ces liens et ne saurait, en aucun cas, être responsable de
                     leur contenu.
@@ -127,15 +116,13 @@ export default function CguPage() {
                     peut s’installer automatiquement sur son logiciel de navigation.<br />
                     Les cookies sont de petits fichiers stockés temporairement sur le disque
                     dur de l’ordinateur de l’Utilisateur par votre navigateur et qui sont
-                    nécessaires à l’utilisation du site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    nécessaires à l’utilisation du site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
                     >https://devisgenerator.martin-julien-dev.fr/</a>. Les cookies ne contiennent pas d’information personnelle et ne peuvent
                     pas être utilisés pour identifier quelqu’un. Un cookie contient un
                     identifiant unique, généré aléatoirement et donc anonyme. Certains cookies
                     expirent à la fin de la visite de l’Utilisateur, d’autres restent.
                     L’information contenue dans les cookies est utilisée pour améliorer le
-                    site
-                    <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
+                    site <a href="https://devisgenerator.martin-julien-dev.fr/" target="_blank"
                     >https://devisgenerator.martin-julien-dev.fr/</a>. En naviguant sur le site, L’Utilisateur les accepte.<br />
                     L’Utilisateur doit toutefois donner son consentement quant à l’utilisation
                     de certains cookies. A défaut d’acceptation, l’Utilisateur est informé que
