@@ -1,48 +1,7 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { createTw } from "react-pdf-tailwind";
 import {CircleCheckBig, CircleDashed} from "lucide-react";
-import {Title} from "@radix-ui/react-dialog";
+import {transformPriceToEuro} from "@/services/lib/utils";
 
-const tw = createTw({
-    theme: {
-
-    },
-});
-
-/*
-const styles = StyleSheet.create({
-    page: {
-        flexDirection: 'column',
-        backgroundColor: '#E4E4E4',
-        padding: 16,
-    },
-    section: {
-        marginBottom: 16,
-    },
-    header: {
-        backgroundColor: '#3B82F6', // bg-blue-500
-        color: '#FFFFFF',           // text-white
-        padding: 16,                // p-4
-        fontSize: 24,               // text-3xl
-    },
-    bodyText: {
-        fontSize: 18,               // text-lg
-    },
-    boldText: {
-        fontWeight: 'bold',         // font-bold
-    },
-    flex: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    fullWidth: {
-        width: '100%',
-    },
-});
-*/
 
 const PdfTemplate = ({ data, formatData }) => {
     const { entreprise, prestations, tc, paidAt } = data;
@@ -67,99 +26,150 @@ const PdfTemplate = ({ data, formatData }) => {
 
     const paid = paidAt ? "checked" : "";
 
+    //TODO: créer des dimensions fixes pour le pdf
     return (
-        <Document>
-            <Page size="A4" style={tw("flex flex-col justify-start p-4 w-full text-sm")}>
-                <View style={tw("flex flex-row justify-between w-full mb-8 p-4")}>
-                    <View>
-                        <Text>{entrepriseNom}</Text>
-                        {entreprise.contact && <Text>{entreprise.contact}</Text>}
-                        <Text>{entrepriseAdresseRue}</Text>
-                        <Text>{entrepriseAdresseVille}</Text>
-                    </View>
-                    <View>
-                        <Text style={tw("text-4xl font-bold capitalize")}>{data?.reference}</Text>
-                        {/*<View style={tw("flex flex-wrap items-center text-base font-semibold text-gray-900")}>*/}
-                        {/*    <View style={tw("justify-center")}>*/}
-                        {/*        <View style={tw("form-control")}>*/}
-                        {/*            <Text style={tw("label")}>*/}
-                        {/*                {!paid && <CircleDashed className=""/>}*/}
-                        {/*                {paid && <CircleCheckBig className="text-green-500"/>}*/}
-                        {/*            </Text>*/}
-                        {/*        </View>*/}
-                        {/*    </View>*/}
-                        {/*</View>*/}
-                    </View>
-                </View>
+        <div id="pdf-content" className="flex flex-col items-between justify-start p-4 w-full text-text-100">
+            <section id={"top section"} className={"flex items-start justify-between w-full mb-8 p-4"}>
+                <div id={"entreprise-adresse-section"}>
+                    {entreprise && (
+                        <>
+                            <p>{entrepriseNom}</p>
+                            {entreprise.contact && <p>{entreprise.contact}</p>}
+                            <p>{entrepriseAdresseRue}</p>
+                            <p>{entrepriseAdresseVille}</p>
+                        </>
+                    )}
+                </div>
+                <div className={"flex gap-4"}>
+                    <h1 className="text-4xl font-bold capitalize">{data?.reference}</h1>
+                    <div className="flex flex-wrap items-center text-base font-semibold text-gray-900 dark:text-white">
+                        <div className="justify-center">
+                            <div className="form-control">
+                                <label className="label">
+                                    {!paid && <CircleDashed className=""/>}
+                                    {paid && <CircleCheckBig className="text-green-500"/>}
+                                    {/*TODO: updater le logo au changement*/}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                <View style={tw("flex flex-row justify-between w-full mb-8 p-4 gap-4")}>
-                    <View style={tw("rounded p-4 flex flex-col justify-start gap-2")}>
-                        <View style={tw("flex flex-row flex-wrap justify-between items-center gap-x-4")}>
-                            <Text>Référence: </Text>
-                            <Text>{data?.reference}</Text>
-                        </View>
-                        <View style={tw("flex flex-row flex-wrap justify-between gap-x-2")}>
-                            <Text>Date du devis:  </Text>
-                            <Text>{updatedAtDate}</Text>
-                        </View>
-                        <View style={tw("flex flex-row flex-wrap justify-between gap-x-2")}>
-                            <Text>Date de début de la prestation: </Text>
-                            <Text>{debutAtDate}</Text>
-                        </View>
-                        <View style={tw("flex flex-row flex-wrap justify-between gap-x-2")}>
-                            <Text>Date de validité: </Text>
-                            <Text>{validite}</Text>
-                        </View>
-                        <View style={tw("flex flex-row flex-wrap justify-between gap-x-2")}>
-                            <Text>Contact client:</Text>
-                            <Text>{contactClient}</Text>
-                        </View>
-                    </View>
-                    <View>
-                        <Text style={tw("underline mb-4")}>Destinataire :</Text>
-                        <Text style={tw("capitalize")}>{clientNom} {clientPrenom}</Text>
-                        <Text>{clientAdresseRue}</Text>
-                        <Text>{clientAdresseVille}</Text>
-                    </View>
-                </View>
+            <section id={"devis-details"} className={"flex flex-wrap items-start justify-between w-full mb-8 p-4 gap-4"}>
+                <div id={"devis-infos"} className={"bordered rounded bg-base-100 p-4 flex flex-col items-between justify-start gap-4"}>
+                    <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
+                        <p>Référence: </p>
+                        <p>{data?.reference}</p>
+                    </div>
 
-                <View style={"p-4 flex flex-col items-start justify-start w-full mb-8"}>
-                    <Text style={tw("underline mb-4")}>Termes et conditions</Text>
-                    <Text style={tw("rounded w-full min-h-16 p-4")}>{tc}</Text>
-                </View>
+                    <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
+                        <p>Date du devis: </p>
+                        <p>{updatedAtDate}</p>
+                    </div>
 
-                <View style={tw("border flex flex-row flex-wrap w-full justify-center gap-2")}>
-                    <View style={tw("grid grid-cols-7 border-b p-2 w-full")}>
-                        <Text>Description</Text>
-                        <Text>Quantité</Text>
-                        <Text>Prix unitaire HT</Text>
-                        <Text>Total HT</Text>
-                        <Text>TVA %</Text>
-                        <Text>TVA</Text>
-                        <Text>Total TTC</Text>
-                    </View>
-                    {prestations.map((prestation, index) => (
-                        <View key={index} style={tw("grid grid-cols-7 gap-x-2 justify-items-center border-none w-full p-4")}>
-                            <Text style={tw("font-bold")}>{prestation.element.nom}</Text>
-                            <Text>{prestation.qty}</Text>
-                            <Text>{prestation.prixHT}</Text>
-                            <Text>{prestation.totalHT}</Text>
-                            <Text>{prestation.tvaPercentage}</Text>
-                            <Text>{prestation.tva}</Text>
-                            <Text>{prestation.totalTTC}</Text>
-                        </View>
-                    ))}
-                </View>
+                    <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
+                        <p>Date de début de la prestation: </p>
+                        <p>{debutAtDate}</p>
+                    </div>
 
-                <View style={tw("flex flex-row justify-between items-center p-4 border-none w-full")}>
-                    <Text>{`Total HT: ${prixHtCalcule}`}</Text>
-                    <Text>{`TVA: ${tvaCalcule}`}</Text>
-                    <Text>{`Total TTC: ${totalTTCCalcule}`}</Text>
-                    {paidAtDate && <Text>{`Payé le: ${paidAtDate}`}</Text>}
-                </View>
-            </Page>
-        </Document>
-    );
+                    <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
+                        <p>Date de validité: </p>
+                        <p>{validite}</p>
+                    </div>
+
+                    <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
+                        <p>Contact client: </p>
+                        <p>{contactClient}</p>
+                    </div>
+                </div>
+                <div id={"infos-client"}>
+                    <h2 className={"underline mb-4"}>Destinataire :</h2>
+                    <p className={"capitalize"}><span className={"uppercase"}>{clientNom}</span> {clientPrenom}</p>
+                    <p>{clientAdresseRue}</p>
+                    <p>{clientAdresseVille}</p>
+                </div>
+            </section>
+
+            <section id={"tc-section"} className={"p-4 flex flex-col items-start justify-start w-full mb-8"}>
+                <h2 className={"underline mb-4"}>Termes et conditions</h2>
+                <div className={"bg-base-100 rounded w-full min-h-32 p-4"}>{tc}</div>
+            </section>
+
+            <section id="prestations-section" className="w-full border flex flex-col lg:flex-wrap lg:flex-row lg:justify-center lg:gap-5">
+                <div className="hidden lg:grid lg:grid-cols-7 lg:items-end lg:justify-items-center lg:border-b lg:bg-base-100 lg:p-4 lg:w-full">
+                    <p>Description</p>
+                    <p>Quantité</p>
+                    <p>Prix unitaire HT</p>
+                    <p>Total HT</p>
+                    <p>TVA %</p>
+                    <p>TVA</p>
+                    <p>Total TTC</p>
+                    <p></p>
+                </div>
+                {prestations && prestations.map((prestation: Prestation) =>{
+                    return (
+                        <div key={prestation.id} className={`w-full p-4 ${
+                            "lg:grid lg:grid-cols-7 lg:gap-x-2 lg:items-center lg:justify-items-center lg:border-none"
+                        } ${
+                            "border flex flex-col gap-y-2"
+                        }`}
+                        >
+                            <p className="font-bold lg:font-normal">{prestation.element.nom}</p>
+                            <PrestationCard nom={"Quantité:"} valeur={prestation.qty.toString()} />
+                            <PrestationCard nom={"Prix Unitaire HT:"} valeur={transformPriceToEuro(prestation.prixHT)} />
+                            <PrestationCard nom="Total HT" valeur={transformPriceToEuro(prestation.totalHT ?? 0)} />
+                            <PrestationCard nom="Pourcentage de TVA:" valeur={prestation.tvaPercentage + "%"} />
+                            <PrestationCard nom="TVA: " valeur={transformPriceToEuro(prestation.tva ?? 0)} />
+                            <PrestationCard nom="Total TTC:" valeur={transformPriceToEuro(prestation.totalTTC ?? 0)} classname="font-bold" />
+                        </div>
+                    )
+                })}
+            </section>
+
+            <section id={"prix-section"} className={"grid grid-cols-2 gap-x-4 items-end justify-items-end ml-auto mb-8 p-4"}>
+                <div className="text-right">
+                    <p>Total HT: </p>
+                    <p>TVA: </p>
+                    <p>Total TTC: </p>
+                    {paidAtDate && <p className={"underline"}>Payé le: </p>}
+                </div>
+                <div className="text-right">
+                    <p className={""}>{prixHtCalcule}</p>
+                    <p>{tvaCalcule}</p>
+                    <p className={"font-bold"}>{totalTTCCalcule}</p>
+                    {paidAtDate && <p>{paidAtDate}</p>}
+                </div>
+            </section>
+
+            <section id={"bottom-section"} className={"flex items-start justify-between w-full p-4"}>
+                <div id={"entreprise-infos-section"}>
+                    <p>Siret: {entreprise.siret}</p>
+                    {entreprise.codeApe && <p>Code APE: {entreprise.codeApe}</p>}
+                    {entreprise.tvaIntracom && <p>Numéro de TVA intracommunautaire: {entreprise.tvaIntracom}</p>}
+                </div>
+                <div id={"contact-section"}>
+                    {entreprise.contact && <p className={"capitalize"}>{entreprise.contact}</p>}
+                    {entreprise.web && <p><a href={entreprise.web} target={"blank"} className={"underline"}>{entreprise.web}</a></p>}
+                    {entreprise.email && <p><a href={"mailto:" + entreprise.email}>{entreprise.email}</a></p>}
+                    {entreprise.telephone1 && <p>Téléphone 1: {entreprise.telephone1}</p>}
+                    {entreprise.telephone2 && <p>Téléphone2: {entreprise.telephone2}</p>}
+                </div>
+            </section>
+        </div>
+    )
 };
+
+function PrestationCard({ nom, valeur, classname }: { nom: string, valeur: string, classname?: string }) {
+    return (
+        <>
+            <div className={`lg:hidden flex items-center gap-x-4 justify-center`}>
+                <p >{nom}</p>
+                <p className={classname}>{valeur}</p>
+            </div>
+            <p className={"hidden lg:block"}>{valeur}</p>
+        </>
+    )
+}
 
 export default PdfTemplate;

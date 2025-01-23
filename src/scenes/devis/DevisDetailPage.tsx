@@ -7,7 +7,8 @@ import {formatDate, stringAdresseRue, stringAdresseVille, transformPriceToEuro} 
 import {CircleCheckBig, CircleDashed} from "lucide-react";
 import PrestationModalTrigger from "@/components/PrestationModalTrigger";
 import PdfTemplate from "@/components/pdf-template";
-import { pdf } from '@react-pdf/renderer';
+import html2canvas from "html2canvas";
+import jsPDF from 'jspdf';
 
 export default function DevisDetailPage() {
     const {id} = useParams();
@@ -68,15 +69,19 @@ export default function DevisDetailPage() {
     const paid = paidAt ? "checked" : "";
 
     const handleDownload = async () => {
-        const blob = await pdf(<PdfTemplate data={devis} formatData={formatDevisData(devis)}
-        />).toBlob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = devis.reference + '.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const section = document.getElementById('pdf-section');
+        section.style.display = "block";
+        const input = document.getElementById('pdf-content');
+        const canvas = await html2canvas(input, {
+            scale: 2, // Augmente la résolution pour une meilleure qualité
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        pdf.addImage(imgData, 'PNG', 0, 0,pageWidth, pageHeight);
+        pdf.save(`${devis.reference}.pdf`);
+        section.style.display = "none";
     };
 
     return (
@@ -86,33 +91,12 @@ export default function DevisDetailPage() {
                 <ModalTrigger devisData={devis} id={Number(id)} />
             </section>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            <Button onClick={handleDownload}>Télécharger PDF</Button>
 
-            {/*<ExportButton targetRef={pdfRef} filename={devis.reference + ".pdf"} />*/}
-            {/*<ReactToPdf targetRef={pdfRef} filename={devis.reference+ ".pdf"} options={{ format: "a4" }}>*/}
-            {/*    {({ toPdf }) => (*/}
-            {/*        <Button*/}
-            {/*            onClick={toPdf}*/}
-            {/*        >*/}
-            {/*            Exporter en PDF*/}
-            {/*        </Button>*/}
-            {/*    )}*/}
-            {/*</ReactToPdf>*/}
-            {/*/!* Template PDF caché *!/*/}
-            {/*<div ref={pdfRef} style={{ display: "none" }}>*/}
-            {/*    <PdfTemplate data={devis} />*/}
-            {/*</div>*/}
-            {/*{devis && prixHtCalcule && tvaCalcule && totalTTCCalcule && <PDFExportButton*/}
-            {/*    devis={devis}*/}
-            {/*    prixHtCalcule={prixHtCalcule}*/}
-            {/*    tvaCalcule={tvaCalcule}*/}
-            {/*    totalTTCCalcule={totalTTCCalcule}*/}
-            {/*    entrepriseAdresseRue={entrepriseAdresseRue}*/}
-            {/*    entrepriseAdresseVille={entrepriseAdresseVille}*/}
-            {/*    clientAdresseRue={clientAdresseRue}*/}
-            {/*    clientAdresseVille={clientAdresseVille}*/}
-            {/*    id={devis?.id}*/}
-            {/*/>}*/}
+            <Button className="hidden lg:block" onClick={handleDownload}>Télécharger PDF</Button>
+
+            <div id={"pdf-section"} style={{ display: "none" }}>
+                <PdfTemplate data={devis} formatData={formatDevisData(devis)}/>
+            </div>
 
             <section id={"top section"} className={"flex items-start justify-between w-full mb-8 p-4"}>
                 <div id={"entreprise-adresse-section"}>

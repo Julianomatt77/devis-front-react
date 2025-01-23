@@ -131,6 +131,6 @@ export default {
       }
     },
   },
-  plugins: [daisyui, tailwindcss_animate],
+  plugins: [tailwindcss_animate],
 }
 
