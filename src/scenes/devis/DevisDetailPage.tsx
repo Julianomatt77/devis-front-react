@@ -71,15 +71,29 @@ export default function DevisDetailPage() {
     const handleDownload = async () => {
         const section = document.getElementById('pdf-section');
         section.style.display = "block";
-        const input = document.getElementById('pdf-content');
+        const input = document.getElementById('pdf-content' + id);
         const canvas = await html2canvas(input, {
             scale: 2, // Augmente la résolution pour une meilleure qualité
         });
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        pdf.addImage(imgData, 'PNG', 0, 0,pageWidth, pageHeight);
+        const imgWidth = 210;
+        const pageHeight = 295;
+        const margin = 10;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let position = margin;
+        let heightLeft = imgHeight;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
+        heightLeft -= pageHeight - margin * 2;
+
+        while (heightLeft >= 0) {
+            pdf.addPage();
+            position = (heightLeft - imgHeight) - margin;
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
+            heightLeft -= pageHeight - margin * 2;
+        }
+
         pdf.save(`${devis.reference}.pdf`);
         section.style.display = "none";
     };
@@ -92,10 +106,9 @@ export default function DevisDetailPage() {
             </section>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-            <Button className="hidden lg:block" onClick={handleDownload}>Télécharger PDF</Button>
-
+            <Button onClick={handleDownload}>Télécharger PDF</Button>
             <div id={"pdf-section"} style={{ display: "none" }}>
-                <PdfTemplate data={devis} formatData={formatDevisData(devis)}/>
+                <PdfTemplate devis={devis} formatData={formatDevisData(devis)}/>
             </div>
 
             <section id={"top section"} className={"flex items-start justify-between w-full mb-8 p-4"}>

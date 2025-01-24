@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
-
 import tailwindcss_animate from "tailwindcss-animate";
 
 export default {
@@ -131,6 +130,7 @@ export default {
       }
     },
   },
-  plugins: [tailwindcss_animate],
+  plugins: [daisyui, tailwindcss_animate],
+  // plugins: [tailwindcss_animate],
 }
 

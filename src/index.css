@@ -241,5 +241,32 @@
     --accent-900: 231 65% 90%;
     --accent-950: 232 62% 95%;
   }
+}
 
+.pdf {
+  width: 210mm; /* Largeur exacte d'une page A4 */
+  min-height: 297mm; /* Hauteur minimale d'une page A4 */
+  margin: 10mm auto; /* Marges pour s'aligner au format PDF */
+  page-break-inside: avoid; /* Empêche les coupures internes */
+  overflow: visible; /* Permet aux sections de s'afficher pleinement */
+}
+
+.pdf-section {
+  page-break-after: always; /* Force un saut de page après chaque section */
+  break-inside: avoid; /* Empêche les coupures à l'intérieur des sections */
+}
+
+.pdf p {
+  page-break-inside: avoid; /* Évite de couper les paragraphes */
+  margin-bottom: 1rem;
+}
+
+@media print {
+  .pdf {
+    page-break-inside: avoid;
+    break-after: always; /* Force les sauts de page après chaque section */
+  }
+  .pdf-section {
+    overflow: visible; /* Permet d'afficher tout le contenu */
+  }
 }

@@ -3,8 +3,8 @@ import {CircleCheckBig, CircleDashed} from "lucide-react";
 import {transformPriceToEuro} from "@/services/lib/utils";
 
 
-const PdfTemplate = ({ data, formatData }) => {
-    const { entreprise, prestations, tc, paidAt } = data;
+const PdfTemplate = ({ devis, formatData }) => {
+    const { entreprise, prestations, tc, paidAt } = devis;
 
     const {
         entrepriseNom,
@@ -15,6 +15,7 @@ const PdfTemplate = ({ data, formatData }) => {
         clientAdresseRue,
         clientAdresseVille,
         contactClient,
+        // createdAtDate,
         updatedAtDate,
         paidAtDate,
         debutAtDate,
@@ -26,10 +27,15 @@ const PdfTemplate = ({ data, formatData }) => {
 
     const paid = paidAt ? "checked" : "";
 
-    //TODO: créer des dimensions fixes pour le pdf
     return (
-        <div id="pdf-content" className="flex flex-col items-between justify-start p-4 w-full text-text-100">
-            <section id={"top section"} className={"flex items-start justify-between w-full mb-8 p-4"}>
+        <div
+            id={"pdf-content" + devis.id}
+            className="pdf flex flex-col items-between justify-start p-4 w-full bg-white text-text-100 text-sm"
+            style={{ width: "210mm", pageBreakInside: "avoid" }}
+        >
+            {/*TODO: gérer l'overflow -> pagination*/}
+            {/*TODO: désactiver daisy Ui*/}
+            <section id={"top section"} className={"flex items-start justify-between w-full mb-0 p-4 pb-0"} style={{ pageBreakInside: "avoid" }}>
                 <div id={"entreprise-adresse-section"}>
                     {entreprise && (
                         <>
@@ -41,8 +47,8 @@ const PdfTemplate = ({ data, formatData }) => {
                     )}
                 </div>
                 <div className={"flex gap-4"}>
-                    <h1 className="text-4xl font-bold capitalize">{data?.reference}</h1>
-                    <div className="flex flex-wrap items-center text-base font-semibold text-gray-900 dark:text-white">
+                    <h1 className="text-4xl font-bold capitalize">{devis?.reference}</h1>
+                    <div className="flex flex-wrap items-center text-text-100">
                         <div className="justify-center">
                             <div className="form-control">
                                 <label className="label">
@@ -56,11 +62,11 @@ const PdfTemplate = ({ data, formatData }) => {
                 </div>
             </section>
 
-            <section id={"devis-details"} className={"flex flex-wrap items-start justify-between w-full mb-8 p-4 gap-4"}>
-                <div id={"devis-infos"} className={"bordered rounded bg-base-100 p-4 flex flex-col items-between justify-start gap-4"}>
+            <section id={"devis-details"} className={"flex flex-wrap items-start justify-between w-full mb-1 p-4 gap-2"} style={{ pageBreakInside: "avoid" }}>
+                <div id={"devis-infos"} className={"bordered rounded bg-primary p-2 flex flex-col items-between justify-start gap-1"}>
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
                         <p>Référence: </p>
-                        <p>{data?.reference}</p>
+                        <p>{devis?.reference}</p>
                     </div>
 
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
@@ -91,13 +97,13 @@ const PdfTemplate = ({ data, formatData }) => {
                 </div>
             </section>
 
-            <section id={"tc-section"} className={"p-4 flex flex-col items-start justify-start w-full mb-8"}>
+            <section id={"tc-section"} className={"p-4 flex flex-col items-start justify-start w-full mb-1"}>
                 <h2 className={"underline mb-4"}>Termes et conditions</h2>
-                <div className={"bg-base-100 rounded w-full min-h-32 p-4"}>{tc}</div>
+                <div className={"bg-primary rounded w-full min-h-32 p-4"}>{tc}</div>
             </section>
 
-            <section id="prestations-section" className="w-full border flex flex-col lg:flex-wrap lg:flex-row lg:justify-center lg:gap-5">
-                <div className="hidden lg:grid lg:grid-cols-7 lg:items-end lg:justify-items-center lg:border-b lg:bg-base-100 lg:p-4 lg:w-full">
+            <section id="prestations-section" className="border flex flex-col flex-wrap flex-row justify-center m-4">
+                <div className="grid grid-cols-7 items-end justify-items-center border-b bg-primary w-full">
                     <p>Description</p>
                     <p>Quantité</p>
                     <p>Prix unitaire HT</p>
@@ -109,13 +115,9 @@ const PdfTemplate = ({ data, formatData }) => {
                 </div>
                 {prestations && prestations.map((prestation: Prestation) =>{
                     return (
-                        <div key={prestation.id} className={`w-full p-4 ${
-                            "lg:grid lg:grid-cols-7 lg:gap-x-2 lg:items-center lg:justify-items-center lg:border-none"
-                        } ${
-                            "border flex flex-col gap-y-2"
-                        }`}
+                        <div key={prestation.id} style={{ pageBreakInside: "avoid" }} className={"w-full p-2 grid grid-cols-7 gap-x-2 items-center justify-items-center border-none"}
                         >
-                            <p className="font-bold lg:font-normal">{prestation.element.nom}</p>
+                            <p className="font-normal">{prestation.element.nom}</p>
                             <PrestationCard nom={"Quantité:"} valeur={prestation.qty.toString()} />
                             <PrestationCard nom={"Prix Unitaire HT:"} valeur={transformPriceToEuro(prestation.prixHT)} />
                             <PrestationCard nom="Total HT" valeur={transformPriceToEuro(prestation.totalHT ?? 0)} />
@@ -142,14 +144,14 @@ const PdfTemplate = ({ data, formatData }) => {
                 </div>
             </section>
 
-            <section id={"bottom-section"} className={"flex items-start justify-between w-full p-4"}>
-                <div id={"entreprise-infos-section"}>
+            <section id={"bottom-section"} className={"flex items-start justify-between w-full p-4 text-xs"}>
+                <div id={"entreprise-infos-section"} style={{ pageBreakInside: "avoid" }}>
                     <p>Siret: {entreprise.siret}</p>
                     {entreprise.codeApe && <p>Code APE: {entreprise.codeApe}</p>}
                     {entreprise.tvaIntracom && <p>Numéro de TVA intracommunautaire: {entreprise.tvaIntracom}</p>}
                 </div>
-                <div id={"contact-section"}>
-                    {entreprise.contact && <p className={"capitalize"}>{entreprise.contact}</p>}
+                <div id={"contact-section"} style={{ pageBreakInside: "avoid" }}>
+                    {entreprise.contact && <p className={"capitalize"}>Contact: {entreprise.contact}</p>}
                     {entreprise.web && <p><a href={entreprise.web} target={"blank"} className={"underline"}>{entreprise.web}</a></p>}
                     {entreprise.email && <p><a href={"mailto:" + entreprise.email}>{entreprise.email}</a></p>}
                     {entreprise.telephone1 && <p>Téléphone 1: {entreprise.telephone1}</p>}
@@ -163,11 +165,7 @@ const PdfTemplate = ({ data, formatData }) => {
 function PrestationCard({ nom, valeur, classname }: { nom: string, valeur: string, classname?: string }) {
     return (
         <>
-            <div className={`lg:hidden flex items-center gap-x-4 justify-center`}>
-                <p >{nom}</p>
-                <p className={classname}>{valeur}</p>
-            </div>
-            <p className={"hidden lg:block"}>{valeur}</p>
+            <p className={"block"}>{valeur}</p>
         </>
     )
 }
