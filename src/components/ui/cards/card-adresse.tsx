@@ -28,12 +28,11 @@ export function CardAdresse({ data, onEditData, refreshData }: any) {
     }
 
     return (
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-background-200 w-96 shadow-xl">
             <div className="card-body">
                 <h2 className="card-title">{displayAdresse}</h2>
 
                 <div className="card-actions justify-end">
-                    {/*<Button>Voir</Button>*/}
                     <Button onClick={() => onEditData(data)}>Modifier</Button>
                     <Button onClick={() => deleteAdresse(data.id)} variant="destructive">Supprimer</Button>
                 </div>

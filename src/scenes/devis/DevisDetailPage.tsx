@@ -38,11 +38,18 @@ export default function DevisDetailPage() {
     }, [id, updated]);
 
     if (isLoading) {
-        return <div>Chargement...</div>; // Affiche un indicateur de chargement
+        return <div>Chargement...</div>;
     }
 
     if (!devis) {
-        return <div>Aucun devis trouvé.</div>; // Si devis est null, affiche un message d'erreur
+        return (
+            <main id={"devis-" + id} className="flex flex-col items-between justify-start p-4 w-full">
+                <section id={"devis-actions-section"} className={"flex items-center justify-between gap-4 p-4"}>
+                    <a href={"/devis"}><Button>Retour aux devis</Button></a>
+                </section>
+                <section><p>Aucun devis trouvé.</p></section>
+            </main>
+            );
     }
 
     const { entreprise, prestations, tc, paidAt } = devis;
@@ -139,7 +146,7 @@ export default function DevisDetailPage() {
             </section>
 
             <section id={"devis-details"} className={"flex flex-wrap items-start justify-between w-full mb-8 p-4 gap-4"}>
-                <div id={"devis-infos"} className={"bordered rounded bg-base-100 p-4 flex flex-col items-between justify-start gap-4"}>
+                <div id={"devis-infos"} className={"border border-grey-200 rounded bg-primary text-primary-foreground dark:bg-grey-800 dark:border-grey-700 p-4 flex flex-col items-between justify-start gap-4"}>
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
                         <p>Référence: </p>
                         <p>{devis?.reference}</p>
@@ -175,11 +182,11 @@ export default function DevisDetailPage() {
 
             <section id={"tc-section"} className={"p-4 flex flex-col items-start justify-start w-full mb-8"}>
                 <h2 className={"underline mb-4"}>Termes et conditions</h2>
-                <div className={"bg-base-100 rounded w-full min-h-32 p-4"}>{tc}</div>
+                <div className={"bg-primary text-primary-foreground rounded w-full min-h-32 p-4"}>{tc}</div>
             </section>
 
             <section id="prestations-section" className="w-full border flex flex-col lg:flex-wrap lg:flex-row lg:justify-center lg:gap-5">
-                <div className="hidden lg:grid lg:grid-cols-8 lg:items-end lg:justify-items-center lg:border-b lg:bg-base-100 lg:p-4 lg:w-full">
+                <div className="hidden lg:grid lg:grid-cols-8 lg:items-end lg:justify-items-center lg:border-b lg:bg-primary lg:text-primary-foreground lg:p-4 lg:w-full">
                     <p>Description</p>
                     <p>Quantité</p>
                     <p>Prix unitaire HT</p>

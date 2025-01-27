@@ -38,8 +38,13 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  input, select, textarea {
+    @apply bg-background-200 text-sidebar-foreground p-2 border border-gray-300 rounded;
   }
 
   :root {
@@ -268,5 +273,16 @@
   }
   .pdf-section {
     overflow: visible; /* Permet d'afficher tout le contenu */
+  }
+}
+
+@layer utilities {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    @apply text-sidebar-foreground border border-gray-300 rounded shadow-none;
+      -webkit-box-shadow: 0 0 0px 1000px hsl(var(--background-200)) inset;
+      -webkit-text-fill-color: hsl(var(--sidebar-foreground));
   }
 }

@@ -6,7 +6,7 @@ export default {
   darkMode: ["class"],
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx, css}",
   ],
   theme: {
     extend: {
@@ -130,7 +130,7 @@ export default {
       }
     },
   },
-  plugins: [daisyui, tailwindcss_animate],
-  // plugins: [tailwindcss_animate],
+  // plugins: [daisyui, tailwindcss_animate],
+  plugins: [tailwindcss_animate],
 }
 
