@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import {Button} from "@/components/ui/button";
 import devisgenerator_logo from "@/assets/logo_devisgenerator_100x100.webp";
+import demo_video from "@/assets/demo.webm";
 
 function homePage() {
     return (
@@ -32,7 +33,7 @@ function homePage() {
                 </Link>
             </header>
 
-            {/* Features Section */}
+
             <section className="py-16">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-semibold text-center text-foreground">
@@ -61,6 +62,16 @@ function homePage() {
                         </div>
                     </div>
                 </div>
+            </section>
+            <section className="flex flex-row justify-center items-center py-16">
+                <video
+                    className="w-full h-full lg:w-3/4 lg:h-3/4 border border-text-900 shadow-lg rounded-lg"
+                    src={demo_video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                />
             </section>
         </div>
     );
