@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button";
 import {useParams} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {getOneDevis} from "@/services/data/data-devis";
 import ModalTrigger from "@/components/ModalTrigger";
 import {formatDate, stringAdresseRue, stringAdresseVille, transformPriceToEuro} from "@/services/lib/utils";
@@ -77,32 +77,38 @@ export default function DevisDetailPage() {
 
     const handleDownload = async () => {
         const section = document.getElementById('pdf-section');
-        section.style.display = "block";
+        if (section) {
+            section.style.display = "block";
+        }
         const input = document.getElementById('pdf-content' + id);
-        const canvas = await html2canvas(input, {
-            scale: 2, // Augmente la résolution pour une meilleure qualité
-        });
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210;
-        const pageHeight = 295;
-        const margin = 10;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let position = margin;
-        let heightLeft = imgHeight;
+        if (input) {
+            const canvas = await html2canvas(input, {
+                scale: 2, // Augmente la résolution pour une meilleure qualité
+            });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = 210;
+            const pageHeight = 295;
+            const margin = 10;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let position = margin;
+            let heightLeft = imgHeight;
 
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
-        heightLeft -= pageHeight - margin * 2;
-
-        while (heightLeft >= 0) {
-            pdf.addPage();
-            position = (heightLeft - imgHeight) - margin;
             pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
             heightLeft -= pageHeight - margin * 2;
-        }
 
-        pdf.save(`${devis.reference}.pdf`);
-        section.style.display = "none";
+            while (heightLeft >= 0) {
+                pdf.addPage();
+                position = (heightLeft - imgHeight) - margin;
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
+                heightLeft -= pageHeight - margin * 2;
+            }
+
+            pdf.save(`${devis.reference}.pdf`);
+            if (section) {
+                section.style.display = "none";
+            }
+        }
     };
 
     return (

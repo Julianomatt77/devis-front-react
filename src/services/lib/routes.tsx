@@ -12,7 +12,6 @@ import ProduitsPage from "@/scenes/ProduitsPage";
 import DevisPage from "@/scenes/devis/DevisPage";
 import DevisDetailPage from "@/scenes/devis/DevisDetailPage";
 import ProtectedRoute from "@/services/lib/ProtectedRoute";
-import PdfTemplate from "@/components/pdf-template";
 
 const AppRoutes = () => {
     return (

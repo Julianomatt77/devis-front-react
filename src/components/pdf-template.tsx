@@ -1,9 +1,8 @@
-import React from 'react';
 import {CircleCheckBig, CircleDashed} from "lucide-react";
 import {transformPriceToEuro} from "@/services/lib/utils";
 
 
-const PdfTemplate = ({ devis, formatData }) => {
+const PdfTemplate = ({ devis, formatData }: { devis: Devis, formatData: any }) => {
     const { entreprise, prestations, tc, paidAt } = devis;
 
     const {
@@ -118,12 +117,12 @@ const PdfTemplate = ({ devis, formatData }) => {
                         <div key={prestation.id} style={{ pageBreakInside: "avoid" }} className={"w-full p-2 grid grid-cols-7 gap-x-2 items-center justify-items-center border-none"}
                         >
                             <p className="font-normal">{prestation.element.nom}</p>
-                            <PrestationCard nom={"Quantité:"} valeur={prestation.qty.toString()} />
-                            <PrestationCard nom={"Prix Unitaire HT:"} valeur={transformPriceToEuro(prestation.prixHT)} />
-                            <PrestationCard nom="Total HT" valeur={transformPriceToEuro(prestation.totalHT ?? 0)} />
-                            <PrestationCard nom="Pourcentage de TVA:" valeur={prestation.tvaPercentage + "%"} />
-                            <PrestationCard nom="TVA: " valeur={transformPriceToEuro(prestation.tva ?? 0)} />
-                            <PrestationCard nom="Total TTC:" valeur={transformPriceToEuro(prestation.totalTTC ?? 0)} classname="font-bold" />
+                            <PrestationCard valeur={prestation.qty.toString()} />
+                            <PrestationCard valeur={transformPriceToEuro(prestation.prixHT)} />
+                            <PrestationCard valeur={transformPriceToEuro(prestation.totalHT ?? 0)} />
+                            <PrestationCard valeur={prestation.tvaPercentage + "%"} />
+                            <PrestationCard valeur={transformPriceToEuro(prestation.tva ?? 0)} />
+                            <PrestationCard valeur={transformPriceToEuro(prestation.totalTTC ?? 0)}/>
                         </div>
                     )
                 })}
@@ -162,7 +161,7 @@ const PdfTemplate = ({ devis, formatData }) => {
     )
 };
 
-function PrestationCard({ nom, valeur, classname }: { nom: string, valeur: string, classname?: string }) {
+function PrestationCard({ valeur }: { valeur: string }) {
     return (
         <>
             <p className={"block"}>{valeur}</p>
