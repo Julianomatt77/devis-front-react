@@ -1,11 +1,14 @@
 import {Button} from "@/components/ui/button";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getOneDevis} from "@/services/data/data-devis";
 import ModalTrigger from "@/components/ModalTrigger";
 import {formatDate, stringAdresseRue, stringAdresseVille, transformPriceToEuro} from "@/services/lib/utils";
 import {CircleCheckBig, CircleDashed} from "lucide-react";
 import PrestationModalTrigger from "@/components/PrestationModalTrigger";
+import PdfTemplate from "@/components/pdf-template";
+import html2canvas from "html2canvas";
+import jsPDF from 'jspdf';
 
 export default function DevisDetailPage() {
     const {id} = useParams();
@@ -13,7 +16,7 @@ export default function DevisDetailPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const updatedParams = new URLSearchParams(location.search);
-    const updated = updatedParams.get('updated') || ""
+    const updated = updatedParams.get('updated') || "";
 
     useEffect(() => {
         async function fetchData() {
@@ -35,11 +38,18 @@ export default function DevisDetailPage() {
     }, [id, updated]);
 
     if (isLoading) {
-        return <div>Chargement...</div>; // Affiche un indicateur de chargement
+        return <div>Chargement...</div>;
     }
 
     if (!devis) {
-        return <div>Aucun devis trouvé.</div>; // Si devis est null, affiche un message d'erreur
+        return (
+            <main id={"devis-" + id} className="flex flex-col items-between justify-start p-4 w-full">
+                <section id={"devis-actions-section"} className={"flex items-center justify-between gap-4 p-4"}>
+                    <a href={"/devis"}><Button>Retour aux devis</Button></a>
+                </section>
+                <section><p>Aucun devis trouvé.</p></section>
+            </main>
+            );
     }
 
     const { entreprise, prestations, tc, paidAt } = devis;
@@ -65,6 +75,36 @@ export default function DevisDetailPage() {
 
     const paid = paidAt ? "checked" : "";
 
+    const handleDownload = async () => {
+        const section = document.getElementById('pdf-section');
+        section.style.display = "block";
+        const input = document.getElementById('pdf-content' + id);
+        const canvas = await html2canvas(input, {
+            scale: 2, // Augmente la résolution pour une meilleure qualité
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210;
+        const pageHeight = 295;
+        const margin = 10;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let position = margin;
+        let heightLeft = imgHeight;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
+        heightLeft -= pageHeight - margin * 2;
+
+        while (heightLeft >= 0) {
+            pdf.addPage();
+            position = (heightLeft - imgHeight) - margin;
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight - margin);
+            heightLeft -= pageHeight - margin * 2;
+        }
+
+        pdf.save(`${devis.reference}.pdf`);
+        section.style.display = "none";
+    };
+
     return (
         <main id={"devis-" + id} className="flex flex-col items-between justify-start p-4 w-full">
             <section id={"devis-actions-section"} className={"flex items-center justify-between gap-4 p-4"}>
@@ -72,17 +112,11 @@ export default function DevisDetailPage() {
                 <ModalTrigger devisData={devis} id={Number(id)} />
             </section>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            {/*{devis && prixHtCalcule && tvaCalcule && totalTTCCalcule && <PDFExportButton*/}
-            {/*    devis={devis}*/}
-            {/*    prixHtCalcule={prixHtCalcule}*/}
-            {/*    tvaCalcule={tvaCalcule}*/}
-            {/*    totalTTCCalcule={totalTTCCalcule}*/}
-            {/*    entrepriseAdresseRue={entrepriseAdresseRue}*/}
-            {/*    entrepriseAdresseVille={entrepriseAdresseVille}*/}
-            {/*    clientAdresseRue={clientAdresseRue}*/}
-            {/*    clientAdresseVille={clientAdresseVille}*/}
-            {/*    id={devis?.id}*/}
-            {/*/>}*/}
+
+            <Button onClick={handleDownload}>Télécharger PDF</Button>
+            <div id={"pdf-section"} style={{ display: "none" }}>
+                <PdfTemplate devis={devis} formatData={formatDevisData(devis)}/>
+            </div>
 
             <section id={"top section"} className={"flex items-start justify-between w-full mb-8 p-4"}>
                 <div id={"entreprise-adresse-section"}>
@@ -112,7 +146,7 @@ export default function DevisDetailPage() {
             </section>
 
             <section id={"devis-details"} className={"flex flex-wrap items-start justify-between w-full mb-8 p-4 gap-4"}>
-                <div id={"devis-infos"} className={"bordered rounded bg-base-100 p-4 flex flex-col items-between justify-start gap-4"}>
+                <div id={"devis-infos"} className={"border border-grey-200 rounded bg-primary text-primary-foreground dark:bg-grey-800 dark:border-grey-700 p-4 flex flex-col items-between justify-start gap-4"}>
                     <div className={"flex flex-wrap justify-between items-center gap-x-4"}>
                         <p>Référence: </p>
                         <p>{devis?.reference}</p>
@@ -148,11 +182,11 @@ export default function DevisDetailPage() {
 
             <section id={"tc-section"} className={"p-4 flex flex-col items-start justify-start w-full mb-8"}>
                 <h2 className={"underline mb-4"}>Termes et conditions</h2>
-                <div className={"bg-base-100 rounded w-full min-h-32 p-4"}>{tc}</div>
+                <div className={"bg-primary text-primary-foreground rounded w-full min-h-32 p-4"}>{tc}</div>
             </section>
 
             <section id="prestations-section" className="w-full border flex flex-col lg:flex-wrap lg:flex-row lg:justify-center lg:gap-5">
-                <div className="hidden lg:grid lg:grid-cols-8 lg:items-end lg:justify-items-center lg:border-b lg:bg-base-100 lg:p-4 lg:w-full">
+                <div className="hidden lg:grid lg:grid-cols-8 lg:items-end lg:justify-items-center lg:border-b lg:bg-primary lg:text-primary-foreground lg:p-4 lg:w-full">
                     <p>Description</p>
                     <p>Quantité</p>
                     <p>Prix unitaire HT</p>
@@ -167,7 +201,7 @@ export default function DevisDetailPage() {
                         <div key={prestation.id} className={`w-full p-4 ${
                             "lg:grid lg:grid-cols-8 lg:gap-x-2 lg:items-center lg:justify-items-center lg:border-none"
                         } ${
-                            "border flex flex-col gap-y-2" // Affichage en card sur les petits écrans
+                            "border flex flex-col gap-y-2"
                         }`}
                         >
                             <p className="font-bold lg:font-normal">{prestation.element.nom}</p>
